@@ -36,6 +36,7 @@ const AuthProvider = ({children}) => {
         setLoading(true)
         return signInWithPopup(auth, githubProvider)
     }
+    
     // const facebookSignIn = ()=>{
     //     setLoading(true)
     //     return signInWithPopup(auth, facebookProvider)
@@ -53,7 +54,7 @@ const AuthProvider = ({children}) => {
             photoURL: photo
         })
     }
-
+   
     const authInfo = {
         user,
         setUser,

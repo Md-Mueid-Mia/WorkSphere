@@ -2,6 +2,7 @@ import React from "react";
 import { FaCartArrowDown } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
+import logo from '../assets/Logo_Normal-01+(3).png'
 import Swal from "sweetalert2";
 
 const Navbar = () => {
@@ -23,6 +24,9 @@ const Navbar = () => {
     <>
       <li className="mx-2">
         <NavLink to={"/"}>Home</NavLink>
+      </li> 
+      <li className="mx-2">
+        <NavLink to={"/dashboard"}>Dashboard</NavLink>
       </li>
       <li className="mx-2">
         <NavLink to={"/contactUs"}>Contact Us</NavLink>
@@ -35,10 +39,10 @@ const Navbar = () => {
   );
   return (
     <div>
-      <div className="navbar fixed z-10 max-w-7xl mx-auto mt-3 bg-black bg-opacity-40 backdrop-blur-sm text-white">
+      <div className="navbar fixed z-10 max-w-7xl mx-auto  bg-orange-400 bg-opacity-40 backdrop-blur-sm text-white">
         <div className="navbar-start">
           
-          <a className="btn btn-ghost text-xl">Bistro Boss</a>
+          <Link to={'/'}><img className="w-32" src={logo} alt="" /></Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           {/* Align navigation items in a single horizontal line */}
@@ -51,14 +55,15 @@ const Navbar = () => {
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
           <img
-            alt="Tailwind CSS Navbar component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            alt="user photo"
+            referrerPolicy="no-referrer"
+            src={user ? user?.photoURL : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"} />
         </div>
       </div>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li className="mx-2 text-black">
+        className="menu menu-sm dropdown-content bg-orange-400 bg-opacity-40 backdrop-blur-sm  rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li className="mx-2 text-white">
           <button onClick={signOut}>
             LogOut
           </button>

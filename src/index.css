@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Include TW Elements styles */
+@import "tw-elements/dist/css/index.min.css";
