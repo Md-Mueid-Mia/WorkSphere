@@ -62,7 +62,7 @@ const DashBoard = () => {
                     activeDropdown === "favorites" ? "max-h-40" : "max-h-0 overflow-hidden"
                   }`}
                 >
-                  <li className="p-3 cursor-pointer">Dashboard</li>
+                  <Link to='/dashboard/work-sheet'><li className="p-3 cursor-pointer">Work Sheet</li></Link>
                   <li className="p-3 cursor-pointer">Bookmarks</li>
                   <li className="p-3 cursor-pointer">Reports</li>
                 </ul>

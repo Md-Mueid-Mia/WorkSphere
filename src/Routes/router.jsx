@@ -8,6 +8,7 @@ import SignUp from './../Pages/SignUp/SignUp';
 import ContactUs from "../Pages/ContactUs/ContactUs";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import DashBoard from "../Layout/DashBoard";
+import WorkSheet from "../Pages/DashBoard/Employee/WorkSheet";
 
 const router = createBrowserRouter([
     {
@@ -52,7 +53,10 @@ const router = createBrowserRouter([
   path: '/dashboard',
   element: <DashBoard></DashBoard>,
   children:[
-    {}
+    {
+      path: 'work-sheet',
+      element: <WorkSheet></WorkSheet>
+    }
   ]
  }
  

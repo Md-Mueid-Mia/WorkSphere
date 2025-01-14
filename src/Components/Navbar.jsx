@@ -39,7 +39,7 @@ const Navbar = () => {
   );
   return (
     <div>
-      <div className="navbar fixed z-10 max-w-7xl mx-auto  bg-gray-600 bg-opacity-50 backdrop-blur-sm text-white">
+      <div className="navbar fixed z-10 max-w-7xl mx-auto  bg-gray-600 bg-opacity-25 backdrop-blur-sm text-white">
         <div className="navbar-start">
           
           <Link to={'/'}><img className="w-32" src={logo} alt="" /></Link>
