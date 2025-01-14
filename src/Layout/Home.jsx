@@ -7,11 +7,11 @@ import TestimonialSlider from '../Components/TestimonialSlider';
 const Home = () => {
     return (
         <div>
-            <Navbar></Navbar>
+           
             <Carousel></Carousel>
 
             <TestimonialSlider></TestimonialSlider>
-            <Outlet />
+            
         </div>
     );
 };
