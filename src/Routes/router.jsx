@@ -7,6 +7,7 @@ import Login from "../Pages/Login/Login";
 import SignUp from './../Pages/SignUp/SignUp';
 import ContactUs from "../Pages/ContactUs/ContactUs";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import DashBoard from "../Layout/DashBoard";
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,13 @@ const router = createBrowserRouter([
         }
       ]
  },
+ {
+  path: '/dashboard',
+  element: <DashBoard></DashBoard>,
+  children:[
+    {}
+  ]
+ }
  
 ]);
 
