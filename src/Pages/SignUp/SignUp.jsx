@@ -39,6 +39,14 @@ const SignUp = () => {
     setLoading(true);
 
     try {
+      const passwordValidation =
+      password.length >= 6 &&
+      /[A-Z]/.test(password) &&
+      /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (!passwordValidation) {
+      return toast.error('Password must be 6 characters, include a capital letter, and a special character.');
+    }
       // Upload photo to imgbb
       if (data.image[0]) {
         const photoData = new FormData();
@@ -78,7 +86,13 @@ const SignUp = () => {
           };
           axiosPublic.post("/users", userInfo)
           .then(res => {
-            console.log("User profile updated",);
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "User Successfully SignUp",
+              showConfirmButton: false,
+              timer: 1500
+            });
           reset()
           navigate('/')
           })
