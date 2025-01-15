@@ -9,6 +9,7 @@ import ContactUs from "../Pages/ContactUs/ContactUs";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import DashBoard from "../Layout/DashBoard";
 import WorkSheet from "../Pages/DashBoard/Employee/WorkSheet";
+import EmployeeList from './../Pages/DashBoard/HR/EmployeeList';
 
 const router = createBrowserRouter([
     {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
     {
       path: 'work-sheet',
       element: <WorkSheet></WorkSheet>
+    },
+    {
+      path: 'employee-list',
+      element: <EmployeeList></EmployeeList>
     }
   ]
  }

@@ -83,6 +83,7 @@ const SignUp = () => {
             salary: salary,
             designation: designation,
             photo: photo,
+            isVerified: false,
           };
           axiosPublic.post("/users", userInfo)
           .then(res => {
@@ -102,8 +103,13 @@ const SignUp = () => {
         return;
       }
     } catch (error) {
-      console.error("Error:", error);
-      toast.error(error.message || "Failed to register");
+     Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: error.message || "Failed to register",
+      showConfirmButton: false,
+      timer: 2000
+    });
     } finally {
       setLoading(false);
     }

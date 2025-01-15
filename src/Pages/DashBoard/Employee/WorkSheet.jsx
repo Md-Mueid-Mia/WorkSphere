@@ -16,7 +16,7 @@ const WorkSheet = () => {
 
     const newEntry = { ...data };
     setWorkEntries([newEntry, ...workEntries]);
-    clg
+    
 
     // Here, you can send `newEntry` to the backend DB via API
 

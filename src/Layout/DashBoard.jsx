@@ -10,8 +10,8 @@ import useAdmin from "../Hooks/useAdmin";
 const DashBoard = () => {
   const [visible, setVisible] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [isHR] = useHR()
-  const [isAdmin]= useAdmin()
+  // const [isHR] = useHR()
+  // const [isAdmin]= useAdmin()
 //   const [isEmployee] = 
 
   const toggleDropdown = (dropdownName) => {
@@ -63,13 +63,14 @@ const DashBoard = () => {
                   }`}
                 >
                   <Link to='/dashboard/work-sheet'><li className="p-3 cursor-pointer">Work Sheet</li></Link>
-                  <li className="p-3 cursor-pointer">Bookmarks</li>
-                  <li className="p-3 cursor-pointer">Reports</li>
+                  <Link to='/dashboard/employee-list'><li className="p-3 cursor-pointer">Employee Sheet</li></Link>
+                  
+                  
                 </ul>
               </li>
 
               {/* Applications */}
-              <li>
+              {/* <li>
                 <div
                   className="p-ripple flex align-items-center justify-content-between cursor-pointer p-3"
                   onClick={() => toggleDropdown("applications")}
@@ -94,7 +95,7 @@ const DashBoard = () => {
                   <li className="p-3 cursor-pointer">Projects</li>
                   <li className="p-3 cursor-pointer">Settings</li>
                 </ul>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
