@@ -21,6 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const EmployeeList = () => {
   // const [employees, setEmployees] = useState([]);
@@ -151,9 +152,9 @@ console.log(employees);
                   </Button>
                 </TableCell>
                 <TableCell>
-                  <Button variant="outlined" color="secondary">
+                  <Link to={`/dashboard/details/${employee._id}`}><Button variant="outlined" color="secondary">
                     Details
-                  </Button>
+                  </Button></Link>
                 </TableCell>
               </TableRow>
             ))}

@@ -62,7 +62,10 @@ const DashBoard = () => {
                     activeDropdown === "favorites" ? "max-h-40" : "max-h-0 overflow-hidden"
                   }`}
                 >
+                  {/* Employee route link */}
                   <Link to='/dashboard/work-sheet'><li className="p-3 cursor-pointer">Work Sheet</li></Link>
+                  <Link to='/dashboard/payment-history'><li className="p-3 cursor-pointer">Payment History</li></Link>
+                 {/* hr route link */}
                   <Link to='/dashboard/employee-list'><li className="p-3 cursor-pointer">Employee Sheet</li></Link>
                   
                   

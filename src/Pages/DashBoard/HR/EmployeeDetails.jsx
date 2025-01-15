@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const EmployeeDetails = () => {
   const { slug } = useParams(); // Get the dynamic slug
   const [employee, setEmployee] = useState(null);
   const [chartData, setChartData] = useState(null);
+  const axiosSecure =useAxiosSecure()
 
   useEffect(() => {
     // Fetch employee details
-    axios.get(`/api/employees/${slug}`) // Replace with your API endpoint
+    axiosSecure.get(`/employees/${slug}`) // Replace with your API endpoint
       .then((response) => {
         const data = response.data;
         setEmployee(data);
@@ -36,7 +38,7 @@ const EmployeeDetails = () => {
       .catch((error) => console.error("Error fetching employee data:", error));
   }, [slug]);
 
-  if (!employee || !chartData) return <p>Loading...</p>;
+//   if (!employee || !chartData) return <p>Loading...</p>;
 
   return (
     <div className="container mx-auto p-6">
