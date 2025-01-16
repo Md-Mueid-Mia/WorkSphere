@@ -22,6 +22,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const EmployeeList = () => {
   // const [employees, setEmployees] = useState([]);
@@ -49,7 +50,7 @@ const EmployeeList = () => {
       }
     },
   })
-console.log(employees);
+// console.log(employees);
   // Toggle verification
     const handleVerificationToggle = async (employeeId, currentStatus) => {
     try {
@@ -83,27 +84,102 @@ console.log(employees);
   };
 
   // Handle payment submission
+  // const handlePayRequest = async () => {
+  //   if (!selectedEmployee.isVerified) return;
+
+  //   try {
+  //     await axiosSecure.post("/payroll", {
+  //       employeeId: selectedEmployee,
+  //       ...paymentDetails,
+  //     });
+  //     setIsModalOpen(false);
+  //     // alert("Payment request created successfully");
+  //     // swal("Payment request created") alert
+  //     Swal.fire({
+  //       position: "center",
+  //       icon: "success",
+  //       title: "Payment request created successfully",
+  //       showConfirmButton: false,
+  //       timer: 1500
+  //     });
+  //   } catch (error) {
+  //     console.error("Error submitting payment request:", error);
+  //   }
+  // };
   const handlePayRequest = async () => {
-    if (!selectedEmployee.isVerified) return;
+    if (!selectedEmployee.isVerified) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Employee not verified",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
+
+    if (!paymentDetails.month || !paymentDetails.year) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Please select both month and year",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
 
     try {
+      // Check if payment already exists for this employee for the selected month and year
+      const paymentResponse = await axiosSecure.get(
+        `/payroll/exists/${selectedEmployee._id}?month=${paymentDetails.month}&year=${paymentDetails.year}`
+      );
+
+      if (paymentResponse?.data?.exists) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Payment already made for this month and year",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return setIsModalOpen(false);;
+      }
+
+      // Proceed with payment if not already paid
       await axiosSecure.post("/payroll", {
         employeeId: selectedEmployee._id,
         ...paymentDetails,
       });
+
       setIsModalOpen(false);
-      alert("Payment request created successfully");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Payment request created successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
     } catch (error) {
       console.error("Error submitting payment request:", error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error processing payment",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
-  };
+};
 
+  
   // Handle modal input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPaymentDetails((prev) => ({ ...prev, [name]: value }));
   };
-
+console.log(selectedEmployee,paymentDetails);
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-semibold mb-4">Employee List</h1>

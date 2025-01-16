@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/signup.svg";
 import { useForm } from "react-hook-form";
@@ -9,8 +9,12 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const SignUp = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [bankAccountNumber, setBankAccountNumber] = useState("");
   const { createUser, updateUserProfile, setLoading, user } =
     useContext(AuthContext);
   const navigate = useNavigate();
@@ -24,6 +28,9 @@ const SignUp = () => {
   console.log(user);
 
   const onSubmit = async (data) => {
+    if (!stripe || !elements) {
+      return;
+    }
     const {
       email,
       Name,
@@ -40,13 +47,15 @@ const SignUp = () => {
 
     try {
       const passwordValidation =
-      password.length >= 6 &&
-      /[A-Z]/.test(password) &&
-      /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        password.length >= 6 &&
+        /[A-Z]/.test(password) &&
+        /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-    if (!passwordValidation) {
-      return toast.error('Password must be 6 characters, include a capital letter, and a special character.');
-    }
+      if (!passwordValidation) {
+        return toast.error(
+          "Password must be 6 characters, include a capital letter, and a special character."
+        );
+      }
       // Upload photo to imgbb
       if (data.image[0]) {
         const photoData = new FormData();
@@ -72,8 +81,7 @@ const SignUp = () => {
         const userCredential = await createUser(email, password);
         const user = userCredential.user;
 
-        updateUserProfile(Name, photo)
-        .then((res) => {
+        updateUserProfile(Name, photo).then((res) => {
           const userInfo = {
             email: email,
             Name: Name,
@@ -85,31 +93,30 @@ const SignUp = () => {
             photo: photo,
             isVerified: false,
           };
-          axiosPublic.post("/users", userInfo)
-          .then(res => {
+          axiosPublic.post("/users", userInfo).then((res) => {
             Swal.fire({
               position: "center",
               icon: "success",
               title: "User Successfully SignUp",
               showConfirmButton: false,
-              timer: 1500
+              timer: 1500,
             });
-          reset()
-          navigate('/')
-          })
+            reset();
+            navigate("/");
+          });
         });
       } else {
         toast.error("Please select a photo");
         return;
       }
     } catch (error) {
-     Swal.fire({
-      position: "top-end",
-      icon: "error",
-      title: error.message || "Failed to register",
-      showConfirmButton: false,
-      timer: 2000
-    });
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: error.message || "Failed to register",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     } finally {
       setLoading(false);
     }
@@ -160,11 +167,21 @@ const SignUp = () => {
                     })}
                     placeholder="Bank Account No"
                     className="input input-bordered"
+                    onChange={(e) => setBankAccountNumber(e.target.value)}
                   />
                   {errors.bank_account_no && (
                     <span>{errors.bank_account_no.message}</span>
                   )}
                 </div>
+                {/* <div>
+          <label>Bank Account Number</label>
+          <input
+            type="text"
+            value={bankAccountNumber}
+            onChange={(e) => setBankAccountNumber(e.target.value)}
+            placeholder="Bank Account Number"
+          />
+        </div> */}
 
                 {/* salary */}
                 <div className="form-control w-[95%]">

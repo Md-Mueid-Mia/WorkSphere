@@ -13,6 +13,7 @@ import EmployeeList from './../Pages/DashBoard/HR/EmployeeList';
 import PaymentHistory from './../Pages/DashBoard/Employee/PaymentHistory';
 import EmployeeDetails from "../Pages/DashBoard/HR/EmployeeDetails";
 import PrivateRoute from './PrivateRoute';
+import Progress from "../Pages/DashBoard/HR/Progress";
 
 const router = createBrowserRouter([
     {
@@ -65,6 +66,7 @@ const router = createBrowserRouter([
       path: 'payment-history',
       element: <PaymentHistory></PaymentHistory>
     },
+    // hr
     {
       path: 'employee-list',
       element: <EmployeeList></EmployeeList>
@@ -72,7 +74,12 @@ const router = createBrowserRouter([
     {
       path: 'details/:slug',
       element: <EmployeeDetails></EmployeeDetails>
+    },
+    {
+      path: 'progress',
+      element: <Progress></Progress>
     }
+
   ]
  }
  
