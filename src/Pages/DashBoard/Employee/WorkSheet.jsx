@@ -1,100 +1,164 @@
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaPen, FaTrashAlt } from 'react-icons/fa';
-import { useForm } from 'react-hook-form';
+import { FaPen, FaTrashAlt } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import useAxiosSecure from "./../../../Hooks/useAxiosSecure";
+import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
+import { parseISO, format } from "date-fns";
 
 const WorkSheet = () => {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const [tasks] = useState(['Sales', 'Support', 'Content', 'Paper-work']);
-  const [workEntries, setWorkEntries] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState(null);
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
-  const onSubmit = (data) => {
-    if (!data.task || !data.hoursWorked || !data.date) return;
+  // Fetch work entries from the server
+  const { data: workEntries = [], refetch } = useQuery({
+    queryKey: ["work-progress", user?.email],
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/work-progress/${user?.email}`);
+      return response.data;
+    },
+  });
 
-    const newEntry = { ...data };
-    setWorkEntries([newEntry, ...workEntries]);
-    
-
-    // Here, you can send `newEntry` to the backend DB via API
-
-    // Reset form after submission
-    setValue('task', '');
-    setValue('hoursWorked', '');
-    setValue('date', new Date());
+  // Add new entry
+  const onSubmit = async (data) => {
+    try {
+      const workData = { data, email: user?.email, name: user?.name };
+      await axiosSecure.post(`/work-progress`, workData);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Worksheet submitted successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      reset();
+      refetch();
+    } catch (error) {
+      console.error("Error submitting worksheet:", error);
+    }
   };
 
+  // Open the edit modal with the selected entry's data
   const openEditModal = (entry) => {
     setSelectedEntry(entry);
     setIsModalOpen(true);
-    setValue('task', entry.task);
-    setValue('hoursWorked', entry.hoursWorked);
-    setValue('date', new Date(entry.date));
+
+    // Prefill the form with the entry's data
+    setValue("task", entry.data?.task || "");
+    setValue("hoursWorked", entry.data?.hoursWorked || "");
+    setValue("date", entry.data?.date ? new Date(entry.data.date) : new Date());
   };
 
-  const handleUpdate = () => {
-    if (!selectedEntry) return;
+  // Update the selected entry
+  const handleUpdate = async (data) => {
+    try {
+      const updatedData = { ...selectedEntry, data };
+      console.log(updatedData);
+      await axiosSecure.put(`/work-progress/${selectedEntry._id}`, updatedData);
 
-    const updatedEntries = workEntries.map(entry =>
-      entry === selectedEntry ? {
-        ...selectedEntry,
-        task: selectedEntry.task,
-        hoursWorked: selectedEntry.hoursWorked,
-        date: selectedEntry.date,
-      } : entry
-    );
-    setWorkEntries(updatedEntries);
-    setIsModalOpen(false);
-
-    // Here, you can send the updated data to the backend DB via API
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Entry updated successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setIsModalOpen(false);
+      setSelectedEntry(null);
+      refetch();
+    } catch (error) {
+      console.error("Error updating entry:", error);
+    }
   };
 
-  const handleDelete = (entry) => {
-    const updatedEntries = workEntries.filter(item => item !== entry);
-    setWorkEntries(updatedEntries);
+  // Delete an entry
+  const handleDelete = async (entry) => {
+  try {
+    // Confirm the delete action with Swal
+    
+      // Proceed with deleting the entry
+      const res = await axiosSecure.delete(`/work-progress/${entry._id}`);
+     
+        // Re-fetch data after successful deletion
+        refetch();
 
-    // Here, you can send the delete request to the backend DB via API
-  };
+        // Show success confirmation
+        Swal.fire({
+          title: "Deleted!",
+          text: "The item has been deleted.",
+          icon: "success",
+        });
+      
+    
+  } catch (error) {
+    console.error("Error deleting entry:", error);
+    Swal.fire({
+      title: "Error!",
+      text: "There was an error while deleting the entry.",
+      icon: "error",
+    });
+  }
+};
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedEntry(null);
-  };
 
   return (
     <div className="container mx-auto p-6">
       {/* Work form */}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:flex-row sm:space-x-4 mb-6 space-y-4 sm:space-y-0">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col sm:flex-row sm:space-x-4 mb-6 space-y-4 sm:space-y-0"
+      >
         <select
-          {...register('task', { required: 'Task is required' })}
+          {...register("task", { required: "Task is required" })}
           className="border p-2 rounded-md w-full sm:w-auto"
         >
           <option value="">Select Task</option>
-          {tasks.map((taskOption, idx) => (
-            <option key={idx} value={taskOption}>{taskOption}</option>
+          {[
+            "Sales",
+            "Support",
+            "Content Writing",
+            "UI/UX Design",
+            "Web Design",
+            "Graphic Design",
+            "Digital Marketing",
+            "Video Editing",
+          ].map((task, idx) => (
+            <option key={idx} value={task}>
+              {task}
+            </option>
           ))}
         </select>
-        {errors.task && <p className="text-red-500">{errors.task.message}</p>}
 
         <input
-          {...register('hoursWorked', { required: 'Hours Worked is required' })}
+          {...register("hoursWorked", { required: "Hours Worked is required" })}
           type="number"
           placeholder="Hours Worked"
           className="border p-2 rounded-md w-full sm:w-auto"
         />
-        {errors.hoursWorked && <p className="text-red-500">{errors.hoursWorked.message}</p>}
 
         <DatePicker
-          {...register('date', { required: 'Date is required' })}
-          selected={new Date()}
-          onChange={(date) => setValue('date', date)}
+          selected={watch("date") || new Date()}
+          onChange={(date) => setValue("date", date)}
           className="border p-2 rounded-md w-full sm:w-auto"
         />
-        {errors.date && <p className="text-red-500">{errors.date.message}</p>}
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded-md w-full sm:w-auto">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 rounded-md w-full sm:w-auto"
+        >
           Add / Submit
         </button>
       </form>
@@ -111,12 +175,14 @@ const WorkSheet = () => {
             </tr>
           </thead>
           <tbody>
-            {workEntries.map((entry, idx) => (
-              <tr key={idx} className="border-t text-center">
-                <td className="px-4 py-2">{entry.task}</td>
-                <td className="px-4 py-2">{entry.hoursWorked}</td>
-                <td className="px-4 py-2">{new Date(entry.date).toLocaleDateString()}</td>
-                <td className="md:pl-20 ml-4 py-2 flex space-x-5 md:space-x-10">
+            {workEntries.sort((a, b) => new Date(b.data?.date) - new Date(a.data?.date)).map((entry) => (
+              <tr key={entry._id} className="border-t text-center">
+                <td className="px-4 py-2">{entry.data?.task}</td>
+                <td className="px-4 py-2">{entry.data?.hoursWorked}</td>
+                <td className="px-4 py-2">
+                  {format(parseISO(entry.data?.date), "MM/dd/yyyy")}
+                </td>
+                <td className="px-4 py-2 flex space-x-4 justify-center">
                   <button
                     onClick={() => openEditModal(entry)}
                     className="text-yellow-500"
@@ -141,36 +207,49 @@ const WorkSheet = () => {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-md w-96">
             <h2 className="text-xl mb-4">Edit Work Entry</h2>
-
-            <form onSubmit={handleSubmit(handleUpdate)} className="space-y-4">
+            <form onSubmit={handleSubmit(handleUpdate)}>
+              {/* Task Dropdown */}
               <select
-                {...register('task', { required: 'Task is required' })}
+                {...register("task", { required: "Task is required" })}
+                defaultValue={selectedEntry.data?.task || ""}
                 className="border p-2 rounded-md w-full"
               >
                 <option value="">Select Task</option>
-                {tasks.map((taskOption, idx) => (
-                  <option key={idx} value={taskOption}>{taskOption}</option>
-                ))}
+                {[
+            "Sales",
+            "Support",
+            "Content Writing",
+            "UI/UX Design",
+            "Web Design",
+            "Graphic Design",
+            "Digital Marketing",
+            "Video Editing",
+          ].map(
+                  (task, idx) => (
+                    <option key={idx} value={task}>
+                      {task}
+                    </option>
+                  )
+                )}
               </select>
-              {errors.task && <p className="text-red-500">{errors.task.message}</p>}
 
+              {/* Hours Worked */}
               <input
-                {...register('hoursWorked', { required: 'Hours Worked is required' })}
+                {...register("hoursWorked")}
+                defaultValue={selectedEntry.data?.hoursWorked}
                 type="number"
-                placeholder="Hours Worked"
-                className="border p-2 rounded-md w-full"
+                className="border p-2 rounded-md w-full mt-2"
               />
-              {errors.hoursWorked && <p className="text-red-500">{errors.hoursWorked.message}</p>}
 
+              {/* DatePicker */}
               <DatePicker
-                {...register('date', { required: 'Date is required' })}
-                selected={new Date(selectedEntry.date)}
-                onChange={(date) => setValue('date', date)}
-                className="border p-2 rounded-md w-full"
+                selected={watch("date") || new Date(selectedEntry.data?.date)}
+                onChange={(date) => setValue("date", date)}
+                className="border p-2 rounded-md w-full mt-2"
               />
-              {errors.date && <p className="text-red-500">{errors.date.message}</p>}
 
-              <div className="flex space-x-4 mt-4">
+              {/* Action Buttons */}
+              <div className="flex justify-between mt-4">
                 <button
                   type="submit"
                   className="bg-blue-500 text-white p-2 rounded-md"
@@ -178,10 +257,10 @@ const WorkSheet = () => {
                   Update
                 </button>
                 <button
-                  onClick={closeModal}
+                  onClick={() => setIsModalOpen(false)}
                   className="bg-gray-500 text-white p-2 rounded-md"
                 >
-                  Close
+                  Cancel
                 </button>
               </div>
             </form>

@@ -119,7 +119,7 @@ const SignUp = () => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Bistro Boss || SignUp</title>
+        <title>Work Sphere || SignUp</title>
       </Helmet>
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col md:flex-row">
@@ -132,7 +132,7 @@ const SignUp = () => {
               <h1 className="text-5xl font-bold">Sign-Up now!</h1>
 
               {/* name */}
-              <div className="form-control pr-7">
+              <div className="form-control ">
                 <label className="label">
                   <span className="label-text">Name</span>
                 </label>
@@ -147,9 +147,9 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-1">
                 {/* bank acc */}
-                <div className="form-control ">
+                <div className="form-control w-[95%]">
                   <label className="block text-gray-700">
                     Bank account number
                   </label>
@@ -167,7 +167,7 @@ const SignUp = () => {
                 </div>
 
                 {/* salary */}
-                <div className="form-control ">
+                <div className="form-control w-[95%]">
                   <label className="block text-gray-700">Salary</label>
                   <input
                     type="text"
@@ -179,7 +179,7 @@ const SignUp = () => {
                 </div>
               </div>
               {/* role */}
-              <div className="pr-7">
+              <div className="">
                 <label className="block text-gray-700">Role</label>
                 <select
                   name="role"
@@ -193,7 +193,7 @@ const SignUp = () => {
                 </select>
               </div>
               {/* designation */}
-              <div className="form-control pr-7">
+              <div className="form-control ">
                 <label className="block text-gray-700">Designation</label>
                 <input
                   type="text"
@@ -208,7 +208,7 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-1">
                 {/* email */}
                 <div className="form-control">
                   <label className="label">
@@ -276,7 +276,7 @@ const SignUp = () => {
                 />
               </div>
 
-              <div className="form-control pr-7">
+              <div className="form-control ">
                 <input
                   type="submit"
                   className="btn btn-primary"

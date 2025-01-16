@@ -12,6 +12,7 @@ import WorkSheet from "../Pages/DashBoard/Employee/WorkSheet";
 import EmployeeList from './../Pages/DashBoard/HR/EmployeeList';
 import PaymentHistory from './../Pages/DashBoard/Employee/PaymentHistory';
 import EmployeeDetails from "../Pages/DashBoard/HR/EmployeeDetails";
+import PrivateRoute from './PrivateRoute';
 
 const router = createBrowserRouter([
     {
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
  },
  {
   path: '/dashboard',
-  element: <DashBoard></DashBoard>,
+  element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
   children:[
     {
       path: 'work-sheet',
