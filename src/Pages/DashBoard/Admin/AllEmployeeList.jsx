@@ -7,34 +7,39 @@ import { GoArrowUpRight } from "react-icons/go";
 import { Link } from "react-router-dom";
 
 const AllEmployeeList = () => {
-//   const [employees, setEmployees] = useState([]);
+  //   const [employees, setEmployees] = useState([]);
   const [isTableView, setIsTableView] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [newSalary, setNewSalary] = useState(0);
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
-  const { data: employees = [], isLoading } = useQuery({
+  const {
+    data: employees = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["employees"],
-    queryFn: async()=>{
-        const res = await axiosSecure.get('/users/verified')
-        return res.data
-    }
+    queryFn: async () => {
+      const res = await axiosSecure.get("/users/verified");
+      return res.data;
+    },
   });
   console.log(employees);
-  const updateEmployee = (id, updates) => {
-    fetch(`/api/employees/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updates),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        setEmployees((prev) =>
-          prev.map((employee) =>
-            employee.id === id ? { ...employee, ...updates } : employee
-          )
-        );
-      });
+  const updateEmployee = async (id, updates) => {
+    // const updatedEmployee = await axiosSecure.patch(`/users/${id}`, {updates: updates})
+    // fetch(`/users/${id}`, {
+    //   method: "PATCH",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(updates),
+    // })
+    //   .then((res) => res.json())
+    //   .then(() => {
+    //     setEmployees((prev) =>
+    //       prev.map((employee) =>
+    //         employee.id === id ? { ...employee, ...updates } : employee
+    //       )
+    //     );
+    //   });
   };
 
   const handleFireEmployee = (id) => {
@@ -46,27 +51,46 @@ const AllEmployeeList = () => {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, fire!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        updateEmployee(id, { fired: true });
-        Swal.fire("Success", "Employee fired successfully", "success");
+        await axiosSecure
+          .patch(`/users/${id}`, { fired: true })
+          .then((response) => {
+            console.log("Made HR:", response);
+            refetch();
+            Swal.fire("Success", "Employee fired successfully", "success");
+          });
       }
     });
   };
 
-  const handleMakeHR = (id) => {
-    updateEmployee(id, { role: "HR" });
-    Swal.fire("Success", "Employee promoted to HR", "success");
+  const handleMakeHR = async (id) => {
+    await axiosSecure.patch(`/users/${id}`, { role: "HR" }).then((response) => {
+      console.log("Made HR:", response);
+      refetch();
+      Swal.fire("Success", "Employee promoted to HR", "success");
+    });
   };
+  console.log(newSalary);
 
-  const handleAdjustSalary = () => {
+  const handleAdjustSalary = async (id) => {
+    console.log(id);
     if (selectedEmployee && newSalary > selectedEmployee.salary) {
-      updateEmployee(selectedEmployee.id, { salary: newSalary });
+      //   updateEmployee(selectedEmployee._id, { salary: newSalary });
+      const updatedEmployee = await axiosSecure.patch(`/users/${id}`, {
+        salary: newSalary,
+      });
+      console.log("Updated Employee:", updatedEmployee);
+      refetch();
       setSelectedEmployee(null);
       setNewSalary(0);
       Swal.fire("Success", "Salary updated successfully", "success");
     } else {
-      Swal.fire("Error", "New salary must be higher than the current salary", "error");
+      Swal.fire(
+        "Error",
+        "New salary must be higher than the current salary",
+        "error"
+      );
     }
   };
 
@@ -87,8 +111,12 @@ const AllEmployeeList = () => {
               <th className="border border-gray-300 px-4 py-2">Name</th>
               <th className="border border-gray-300 px-4 py-2">Email</th>
               <th className="border border-gray-300 px-4 py-2">Designation</th>
-              <th className="border border-gray-300 px-4 py-2">Bank Account No</th>
-              <th className="border border-gray-300 px-4 py-2">Adjust Salary</th>
+              <th className="border border-gray-300 px-4 py-2">
+                Bank Account No
+              </th>
+              <th className="border border-gray-300 px-4 py-2">
+                Adjust Salary
+              </th>
               <th className="border border-gray-300 px-4 py-2">Make HR</th>
               <th className="border border-gray-300 px-4 py-2">Fire</th>
               <th className="border border-gray-300 px-4 py-2">Details</th>
@@ -97,10 +125,18 @@ const AllEmployeeList = () => {
           <tbody>
             {employees.map((employee, idx) => (
               <tr key={idx} className="text-center">
-                <td className="border border-gray-300 px-4 py-2">{employee.Name}</td>
-                <td className="border border-gray-300 px-4 py-2">{employee.email}</td>
-                <td className="border border-gray-300 px-4 py-2">{employee.designation}</td>
-                <td className="border border-gray-300 px-4 py-2">{employee.bank_account_no}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {employee.Name}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {employee.email}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {employee.designation}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {employee.bank_account_no}
+                </td>
                 <td className="border border-gray-300 px-4 py-2">
                   <button
                     className=" px-4 py-1 rounded"
@@ -127,14 +163,17 @@ const AllEmployeeList = () => {
                   ) : (
                     <button
                       className=" text-white px-4 py-1 rounded"
-                      onClick={() => handleFireEmployee(employee.id)}
+                      onClick={() => handleFireEmployee(employee._id)}
                     >
                       <FaFire className="text-yellow-400" />
                     </button>
                   )}
                 </td>
-                <td className="border border-gray-300 px-4 py-2"><Link><GoArrowUpRight /></Link></td>
-                
+                <td className="border border-gray-300 px-4 py-2">
+                  <Link>
+                    <GoArrowUpRight />
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -142,7 +181,7 @@ const AllEmployeeList = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {employees.map((employee) => (
-            <div key={employee.id} className="border p-4 rounded shadow">
+            <div key={employee._id} className="border p-4 rounded shadow">
               <h3 className="font-bold text-lg">{employee.Name}</h3>
               <p>Role: {employee.role}</p>
               <p>Bank Account No: {employee.bank_account_no}</p>
@@ -184,12 +223,12 @@ const AllEmployeeList = () => {
           <div className="bg-white p-6 rounded shadow-lg w-96">
             <h2 className="text-lg font-bold mb-4">Adjust Salary</h2>
             <p className="mb-4">
-              Adjust salary for <strong>{selectedEmployee.name}</strong>
+              Adjust salary for <strong>{selectedEmployee.Name}</strong>
             </p>
             <input
               type="number"
               className="w-full border border-gray-300 rounded px-3 py-2 mb-4"
-              value={newSalary}
+              defaultValue={selectedEmployee?.salary}
               onChange={(e) => setNewSalary(Number(e.target.value))}
             />
             <div className="flex justify-end">
@@ -201,7 +240,7 @@ const AllEmployeeList = () => {
               </button>
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded"
-                onClick={handleAdjustSalary}
+                onClick={() => handleAdjustSalary(selectedEmployee?._id)}
               >
                 Save
               </button>

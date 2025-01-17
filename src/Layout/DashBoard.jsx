@@ -2,25 +2,34 @@ import React, { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
 import { Ripple } from "primereact/ripple";
-import logo from '../assets/Logo_Normal-01+(3).png'
+import logo from "../assets/Logo_Normal-01+(3).png";
 import { Link, Outlet } from "react-router-dom";
 import useHR from "../Hooks/useHR";
 import useAdmin from "../Hooks/useAdmin";
+import LoadingSpinner from "../Components/LoadingSpiner";
+import { useEmployee } from "../Hooks/useEmployee";
 
 const DashBoard = () => {
   const [visible, setVisible] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  // const [isHR] = useHR()
-  // const [isAdmin]= useAdmin()
-//   const [isEmployee] = 
 
+  // Custom hooks for role checking
+  const [isHR, isHRLoading] = useHR();
+  const [isAdmin, isAdminLoading] = useAdmin();
+  const [isEmployee,isEmployeeLoading] = useEmployee();
+console.log("isHR", isHR, "isAdmin", isAdmin, "isEmployee", isEmployee);
+  // Check if roles are loading
+  if (isHRLoading) return <LoadingSpinner />;
+  if (isAdminLoading) return <LoadingSpinner />;
+  if (isEmployeeLoading) return <LoadingSpinner />;
+
+  // Dropdown toggle handler
   const toggleDropdown = (dropdownName) => {
     setActiveDropdown((prev) => (prev === dropdownName ? null : dropdownName));
   };
 
   return (
     <div>
-        <div >
       {/* Sidebar Toggle Button */}
       <Button
         icon="pi pi-bars"
@@ -35,13 +44,16 @@ const DashBoard = () => {
           <div className="surface-section h-screen">
             {/* Logo Section */}
             <div className="flex align-items-center justify-content-between px-4 pt-3">
-              <span className="font-semibold text-2xl text-primary"><Link to='/'><img src={logo} alt="" /></Link></span>
-              
+              <span className="font-semibold text-2xl text-primary">
+                <Link to="/">
+                  <img src={logo} alt="Logo" />
+                </Link>
+              </span>
             </div>
 
             {/* Sidebar Menu */}
             <ul className="list-none p-3">
-              {/* Favorites */}
+              {/* Favorites Section */}
               <li>
                 <div
                   className="p-ripple flex align-items-center justify-content-between cursor-pointer p-3"
@@ -57,56 +69,57 @@ const DashBoard = () => {
                   ></i>
                   <Ripple />
                 </div>
-                <ul
-                  className={`list-none transition-all duration-300 ease-in-out pl-5 ${
-                    activeDropdown === "favorites" ? "max-h-40" : "max-h-0 overflow-hidden"
-                  }`}
-                >
-                  {/* Employee route link */}
-                  <Link to='/dashboard/work-sheet'><li className="p-3 cursor-pointer">Work Sheet</li></Link>
-                  <Link to='/dashboard/payment-history'><li className="p-3 cursor-pointer">Payment History</li></Link>
-                 {/* hr route link */}
-                  <Link to='/dashboard/employee-list'><li className="p-3 cursor-pointer">Employee Sheet</li></Link>
-                  <Link to='/dashboard/progress'><li className="p-3 cursor-pointer">Employee Progress</li></Link>
-                  {/* admin routes */}
-                  <Link to='/dashboard/all-employee-list'><li className="p-3 cursor-pointer">All Employee List</li></Link>
-                  
-                </ul>
-              </li>
 
-              {/* Applications */}
-              {/* <li>
-                <div
-                  className="p-ripple flex align-items-center justify-content-between cursor-pointer p-3"
-                  onClick={() => toggleDropdown("applications")}
-                >
-                  <span>APPLICATIONS</span>
-                  <i
-                    className={`pi ${
-                      activeDropdown === "applications"
-                        ? "pi-chevron-up"
-                        : "pi-chevron-down"
-                    }`}
-                  ></i>
-                  <Ripple />
-                </div>
                 <ul
                   className={`list-none transition-all duration-300 ease-in-out pl-5 ${
-                    activeDropdown === "applications"
+                    activeDropdown === "favorites"
                       ? "max-h-40"
                       : "max-h-0 overflow-hidden"
                   }`}
                 >
-                  <li className="p-3 cursor-pointer">Projects</li>
-                  <li className="p-3 cursor-pointer">Settings</li>
+                  {/* Employee Links */}
+                  {isEmployee  && (
+                    <>
+                      <Link to="/dashboard/work-sheet">
+                        <li className="p-3 cursor-pointer">Work Sheet</li>
+                      </Link>
+                      <Link to="/dashboard/payment-history">
+                        <li className="p-3 cursor-pointer">Payment History</li>
+                      </Link>
+                    </>
+                  )}
+
+                  {/* HR Links */}
+                  {isHR && !isAdmin && !isEmployee && (
+                    <>
+                      <Link to="/dashboard/employee-list">
+                        <li className="p-3 cursor-pointer">Employee Sheet</li>
+                      </Link>
+                      <Link to="/dashboard/progress">
+                        <li className="p-3 cursor-pointer">Employee Progress</li>
+                      </Link>
+                    </>
+                  )}
+
+                  {/* Admin Links */}
+                  {isAdmin && (
+                    <>
+                      <Link to="/dashboard/all-employee-list">
+                        <li className="p-3 cursor-pointer">All Employee List</li>
+                      </Link>
+                    </>
+                  )}
                 </ul>
-              </li> */}
+              </li>
             </ul>
           </div>
         </div>
       </Sidebar>
-    </div>
-        <div><Outlet></Outlet></div>
+
+      {/* Main Content */}
+      <div>
+        <Outlet />
+      </div>
     </div>
   );
 };

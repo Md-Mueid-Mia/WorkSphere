@@ -15,6 +15,9 @@ import EmployeeDetails from "../Pages/DashBoard/HR/EmployeeDetails";
 import PrivateRoute from './PrivateRoute';
 import Progress from "../Pages/DashBoard/HR/Progress";
 import AllEmployeeList from './../Pages/DashBoard/Admin/AllEmployeeList';
+import AdminRoute from "./AdminRoute";
+import HrRoutes from "./HrRoutes";
+import EmployeeRoute from "./EmployeeRoute";
 
 const router = createBrowserRouter([
     {
@@ -61,29 +64,29 @@ const router = createBrowserRouter([
   children:[
     {
       path: 'work-sheet',
-      element: <WorkSheet></WorkSheet>
+      element: <EmployeeRoute><WorkSheet></WorkSheet></EmployeeRoute>
     },
     {
       path: 'payment-history',
-      element: <PaymentHistory></PaymentHistory>
+      element: <EmployeeRoute><PaymentHistory></PaymentHistory></EmployeeRoute>
     },
     // hr
     {
       path: 'employee-list',
-      element: <EmployeeList></EmployeeList>
+      element: <HrRoutes><EmployeeList></EmployeeList></HrRoutes>
     },
     {
       path: 'details/:slug',
-      element: <EmployeeDetails></EmployeeDetails>
+      element: <HrRoutes><EmployeeDetails></EmployeeDetails></HrRoutes>
     },
     {
       path: 'progress',
-      element: <Progress></Progress>
+      element: <HrRoutes><Progress></Progress></HrRoutes>
     },
     // admin routes
     {
       path: 'all-employee-list',
-      element: <AllEmployeeList></AllEmployeeList>
+      element: <AdminRoute><AllEmployeeList></AllEmployeeList></AdminRoute>
     },
 
   ]

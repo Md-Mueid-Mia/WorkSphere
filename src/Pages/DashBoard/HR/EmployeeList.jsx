@@ -179,7 +179,7 @@ const EmployeeList = () => {
     const { name, value } = e.target;
     setPaymentDetails((prev) => ({ ...prev, [name]: value }));
   };
-console.log(selectedEmployee,paymentDetails);
+// console.log(selectedEmployee,paymentDetails);
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-semibold mb-4">Employee List</h1>

@@ -1,44 +1,65 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import loginImg from "..//../assets/login.svg";
 import SocialLogin from "../../Components/SocileLogin";
 import useAuth from "../../Hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import axios from "axios";
 
 const Login = () => {
-  const [disabled, setDisabled] = useState(true);
+  const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn } = useAuth();
-
+const axiosSecure = useAxiosSecure()
   const from = location?.state || "/";
-  // console.log('state in the location login page', location.state)
 
-  const handleLogin = (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(email, password);
-    signIn(email, password).then((result) => {
-      const user = result.user;
-      console.log(user);
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "User Login Successful.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      navigate(from, { replace: true });
-    });
-  };
-
+           const handleLogin = async (event) => {
+          event.preventDefault();
+          
+          try {
+            const form = event.target;
+            const email = form.email.value;
+            const password = form.password.value;
+        
+            // Firebase auth
+            await signIn(email, password);
+            
+            // Get JWT and set cookie
+            await axios.post(
+              `${import.meta.env.VITE_API_URL}/jwt`,
+              { email },
+              { withCredentials: true }
+            );
+        
+            // Check user status
+            const userStatus = await axiosSecure.get(`/users/email/${email}`);
+            
+            if (userStatus.data?.fired) {
+              throw new Error("Your account has been terminated");
+            }
+        
+            Swal.fire({
+              icon: "success",
+              title: "Login Successful",
+              timer: 1500,
+              showConfirmButton: false
+            });
+        
+            navigate(from, { replace: true });
+        
+          } catch (error) {
+            Swal.fire({
+              icon: "error",
+              title: "Login Failed",
+              text: error.message
+            });
+          }
+        };
   return (
     <>
-      {/* <Helmet>
-                <title>Bistro Boss | Login</title>
-            </Helmet> */}
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col md:flex-row-reverse">
           <div className="text-center md:w-1/2 lg:text-left">
@@ -84,7 +105,7 @@ const Login = () => {
             </form>
             <p className="text-center">
               <small>
-                New Here? <Link to="/signup">Create an account</Link>{" "}
+                New Here? <Link to="/signup">Create an account</Link>
               </small>
             </p>
             <p className="text-center pb-2">Or sign In with</p>

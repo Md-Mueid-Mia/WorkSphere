@@ -1,24 +1,23 @@
 import React from 'react';
-import useAdmin from '../Hooks/useAdmin';
 import useAuth from '../Hooks/useAuth';
 import { Navigate, useLocation } from 'react-router-dom';
+import useHR from '../Hooks/useHR';
 import LoadingSpinner from '../Components/LoadingSpiner';
 
-
-const AdminRoute = ({children}) => {
+const HrRoutes = ({children}) => {
     const {user, loading} =useAuth();
-    const [isAdmin, isAdminLoading] = useAdmin();
+    const [isHR, isHRLoading] = useHR();
     const location = useLocation();
-    console.log(isAdmin , user);
+    console.log(isHR);
 
-  if (loading || isAdminLoading) {
+  if (loading || isHRLoading) {
     return <LoadingSpinner></LoadingSpinner>
   }
-  if (user && isAdmin) {
+  if (user && isHR) {
     return children;
   }
 
   return <Navigate to={"/login"} state={location.pathname} replace />;
 };
 
-export default AdminRoute;
+export default HrRoutes;
