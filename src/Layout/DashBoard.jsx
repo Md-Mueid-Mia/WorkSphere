@@ -67,7 +67,9 @@ const DashBoard = () => {
                   <Link to='/dashboard/payment-history'><li className="p-3 cursor-pointer">Payment History</li></Link>
                  {/* hr route link */}
                   <Link to='/dashboard/employee-list'><li className="p-3 cursor-pointer">Employee Sheet</li></Link>
-                  
+                  <Link to='/dashboard/progress'><li className="p-3 cursor-pointer">Employee Progress</li></Link>
+                  {/* admin routes */}
+                  <Link to='/dashboard/all-employee-list'><li className="p-3 cursor-pointer">All Employee List</li></Link>
                   
                 </ul>
               </li>

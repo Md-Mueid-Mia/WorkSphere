@@ -92,6 +92,7 @@ const SignUp = () => {
             designation: designation,
             photo: photo,
             isVerified: false,
+            firebaseUID: user?.uid
           };
           axiosPublic.post("/users", userInfo).then((res) => {
             Swal.fire({

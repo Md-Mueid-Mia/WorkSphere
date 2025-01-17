@@ -14,6 +14,7 @@ import PaymentHistory from './../Pages/DashBoard/Employee/PaymentHistory';
 import EmployeeDetails from "../Pages/DashBoard/HR/EmployeeDetails";
 import PrivateRoute from './PrivateRoute';
 import Progress from "../Pages/DashBoard/HR/Progress";
+import AllEmployeeList from './../Pages/DashBoard/Admin/AllEmployeeList';
 
 const router = createBrowserRouter([
     {
@@ -78,7 +79,12 @@ const router = createBrowserRouter([
     {
       path: 'progress',
       element: <Progress></Progress>
-    }
+    },
+    // admin routes
+    {
+      path: 'all-employee-list',
+      element: <AllEmployeeList></AllEmployeeList>
+    },
 
   ]
  }

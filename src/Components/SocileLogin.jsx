@@ -3,15 +3,17 @@ import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { IoLogoGoogle } from 'react-icons/io5';
 // import useAxiosPublic from '../Hooks/useAxiosPublic';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import useAuth from './../Hooks/useAuth';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
 
 const SocialLogin = () => {
     const {googleSignIn, githubSignIn} = useAuth()
-    // const axiosPublic = useAxiosPublic()
+    const axiosPublic = useAxiosPublic()
     const navigate =useNavigate()
+    const {user} = useAuth()
 
-    const handleGoogleSignin = () => {
+    const handleGoogleSignin =async () => {
         googleSignIn()
         .then(res=>{
             console.log(res.user)
@@ -29,13 +31,14 @@ const SocialLogin = () => {
                 name: res.user?.displayName,
                 email: res.user?.email,
                 photoURL: res.user?.photoURL,
-                role: "Employee"
+                role: "Employee",
+                firebaseUID: user?.uid
             }
-            // axiosPublic.post('/users', userInfo)
-            //  .then(res=>{
-            //     console.log(res.data)
-            //     navigate('/')
-            //  })
+            axiosPublic.post('/users', userInfo)
+             .then(res=>{
+                console.log(res.data)
+                navigate('/')
+             })
         })
     }
     

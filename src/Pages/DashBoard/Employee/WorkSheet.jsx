@@ -31,11 +31,11 @@ const WorkSheet = () => {
       return response.data;
     },
   });
-
+console.log(workEntries);
   // Add new entry
   const onSubmit = async (data) => {
     try {
-      const workData = { data, email: user?.email, name: user?.name };
+      const workData = { data, email: user?.email, name: user?.displayName };
       await axiosSecure.post(`/work-progress`, workData);
       Swal.fire({
         position: "center",

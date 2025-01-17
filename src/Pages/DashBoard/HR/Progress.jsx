@@ -1,137 +1,149 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  TextField,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
-const Progress = () => {
-  const [records, setRecords] = useState([]);
-  const [filteredRecords, setFilteredRecords] = useState([]);
-  const [employees, setEmployees] = useState([]);
+const WorkRecords = () => {
   const [selectedEmployee, setSelectedEmployee] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
+  const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    // Fetch work records
-    axios
-      .get("/api/work-records") // Replace with your backend API
-      .then((response) => {
-        setRecords(response.data);
-        setFilteredRecords(response.data);
-      })
-      .catch((error) => console.error("Error fetching work records:", error));
-
-    // Fetch employee names for dropdown
-    axios
-      .get("/api/employees") // Replace with your backend API
-      .then((response) => {
-        setEmployees(response.data);
-      })
-      .catch((error) => console.error("Error fetching employees:", error));
-  }, []);
-
-  // Handle filtering
-  const handleFilter = () => {
-    let filtered = [...records];
-    if (selectedEmployee) {
-      filtered = filtered.filter(
-        (record) => record.employeeName === selectedEmployee
-      );
-    }
-    if (selectedMonth) {
-      filtered = filtered.filter((record) => record.month === selectedMonth);
-    }
-    setFilteredRecords(filtered);
-  };
-
+  // Filter work records based on the selected employee and month
+  const { data: employees = [], refetch } = useQuery({
+    queryKey: ["workRecords"],
+    queryFn: async () => {
+      try {
+        const response = await axiosSecure.get("/work-progress");
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+        return [];
+      }
+    },
+  });
+  console.log(employees);
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Employee Work Progress</h1>
+      <h1 className="text-2xl font-semibold mb-4">Work Records</h1>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        {/* Employee Filter */}
-        <div>
-          <label htmlFor="employeeFilter" className="block font-semibold mb-2">
-            Filter by Employee
-          </label>
-          <select
-            id="employeeFilter"
+      <div className="flex gap-4 mb-6">
+        <FormControl className="w-1/3">
+          <InputLabel>Employee</InputLabel>
+          <Select
             value={selectedEmployee}
             onChange={(e) => setSelectedEmployee(e.target.value)}
-            className="w-full sm:w-64 p-2 border border-gray-300 rounded"
           >
-            <option value="">All Employees</option>
+            <MenuItem value="">
+              <em>All Employees</em>
+            </MenuItem>
             {employees.map((employee) => (
-              <option key={employee._id} value={employee.name}>
+              <MenuItem key={employee._id} value={employee._id}>
                 {employee.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-        </div>
+          </Select>
+        </FormControl>
 
-        {/* Month Filter */}
-        <div>
-          <label htmlFor="monthFilter" className="block font-semibold mb-2">
-            Filter by Month
-          </label>
-          <select
-            id="monthFilter"
+        <FormControl className="w-1/3">
+          <InputLabel>Month</InputLabel>
+          <Select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
-            className="w-full sm:w-64 p-2 border border-gray-300 rounded"
           >
-            <option value="">All Months</option>
-            {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map(
-              (month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              )
-            )}
-          </select>
-        </div>
-
-        {/* Filter Button */}
-        <div className="flex items-end">
-          <button
-            onClick={handleFilter}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            <MenuItem value="">
+              <em>All Months</em>
+            </MenuItem>
+            {Array.from({ length: 12 }, (_, i) => (
+              <MenuItem key={i + 1} value={i + 1}>
+                {new Date(0, i).toLocaleString("default", { month: "long" })}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl className="w-1/3">
+          <InputLabel>Year</InputLabel>
+          <Select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
           >
-            Apply Filters
-          </button>
-        </div>
+            <MenuItem value="">
+              <em>All Years</em>
+            </MenuItem>
+            {Array.from({ length: 20 }, (_, i) => {
+              const currentYear = new Date().getFullYear();
+              const year = currentYear - i; // Display last 20 years
+              return (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
       </div>
 
-      {/* Work Records Table */}
-      <table className="table-auto w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-4 py-2">Employee Name</th>
-            <th className="border px-4 py-2">Month</th>
-            <th className="border px-4 py-2">Work Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredRecords.length > 0 ? (
-            filteredRecords.map((record, index) => (
-              <tr key={index}>
-                <td className="border px-4 py-2">{record.employeeName}</td>
-                <td className="border px-4 py-2">{record.month}</td>
-                <td className="border px-4 py-2">{record.workDetails}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan="3"
-                className="border px-4 py-2 text-center text-gray-500"
-              >
-                No records found
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {/* Table */}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <strong>Employee Name</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Email</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Task</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Hours</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Date</strong>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {employees.length > 0 ? (
+              employees.map((record) => (
+                <TableRow key={record._id}>
+                  <TableCell>{record.name}</TableCell>
+                  <TableCell>{record.email}</TableCell>
+                  <TableCell>{record.data.task}</TableCell>
+                  <TableCell>{record.data.hoursWorked}</TableCell>
+                  <TableCell>
+                    {new Date(record.data.date).toLocaleDateString()}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3} align="center">
+                  No records found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
 
-export default Progress;
+export default WorkRecords;
