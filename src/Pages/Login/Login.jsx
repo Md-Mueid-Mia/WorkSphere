@@ -16,48 +16,49 @@ const Login = () => {
 const axiosSecure = useAxiosSecure()
   const from = location?.state || "/";
 
-           const handleLogin = async (event) => {
-          event.preventDefault();
+                  const handleLogin = async (event) => {
+            event.preventDefault();
+            
+            try {
+              const form = event.target;
+              const email = form.email.value;
+              const password = form.password.value;
           
-          try {
-            const form = event.target;
-            const email = form.email.value;
-            const password = form.password.value;
-        
-            // Firebase auth
-            await signIn(email, password);
-            
-            // Get JWT and set cookie
-            await axios.post(
-              `${import.meta.env.VITE_API_URL}/jwt`,
-              { email },
-              { withCredentials: true }
-            );
-        
-            // Check user status
-            const userStatus = await axiosSecure.get(`/users/email/${email}`);
-            
-            if (userStatus.data?.fired) {
-              throw new Error("Your account has been terminated");
+              // Firebase auth
+              await signIn(email, password);
+              
+              // Get JWT and set cookie
+              await axios.post(
+                `${import.meta.env.VITE_API_URL}/jwt`,
+                { email },
+                { withCredentials: true }
+              );
+          
+              // Check user status with correct endpoint
+              const userStatus = await axiosSecure.get(`/users/email/${email}`);
+              
+              if (userStatus.data?.fired) {
+                throw new Error("Your account has been terminated");
+              }
+          
+              Swal.fire({
+                icon: "success",
+                title: "Login Successful",
+                timer: 1500,
+                showConfirmButton: false
+              });
+          
+              navigate(from, { replace: true });
+          
+            } catch (error) {
+              console.error('Login error:', error);
+              Swal.fire({
+                icon: "error",
+                title: "Login Failed",
+                text: error.message
+              });
             }
-        
-            Swal.fire({
-              icon: "success",
-              title: "Login Successful",
-              timer: 1500,
-              showConfirmButton: false
-            });
-        
-            navigate(from, { replace: true });
-        
-          } catch (error) {
-            Swal.fire({
-              icon: "error",
-              title: "Login Failed",
-              text: error.message
-            });
-          }
-        };
+          };
   return (
     <>
       <div className="hero min-h-screen bg-base-200">

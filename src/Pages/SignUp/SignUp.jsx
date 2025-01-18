@@ -88,7 +88,7 @@ const SignUp = () => {
             password: password,
             role: role,
             bank_account_no: bank_account_no,
-            salary: salary,
+            salary: Number(salary),
             designation: designation,
             photo: photo,
             isVerified: false,

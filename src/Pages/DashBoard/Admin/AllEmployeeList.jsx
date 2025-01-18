@@ -5,6 +5,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaEdit, FaFire } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
 import { Link } from "react-router-dom";
+import { IoCheckmarkDone } from "react-icons/io5";
 
 const AllEmployeeList = () => {
   //   const [employees, setEmployees] = useState([]);
@@ -119,7 +120,7 @@ const AllEmployeeList = () => {
               </th>
               <th className="border border-gray-300 px-4 py-2">Make HR</th>
               <th className="border border-gray-300 px-4 py-2">Fire</th>
-              <th className="border border-gray-300 px-4 py-2">Details</th>
+              {/* <th className="border border-gray-300 px-4 py-2">Details</th> */}
             </tr>
           </thead>
           <tbody>
@@ -154,7 +155,7 @@ const AllEmployeeList = () => {
                       Make HR
                     </button>
                   ) : (
-                    <span>-</span>
+                    <span ><IoCheckmarkDone className="mx-auto"/></span>
                   )}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
@@ -169,11 +170,11 @@ const AllEmployeeList = () => {
                     </button>
                   )}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                {/* <td className="border border-gray-300 px-4 py-2">
                   <Link>
                     <GoArrowUpRight />
                   </Link>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

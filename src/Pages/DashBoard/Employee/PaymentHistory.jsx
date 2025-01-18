@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const PaymentHistory = () => {
-  const [paymentData, setPaymentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
-  const {user}= useAuth()
-  const axiosPublic =useAxiosPublic()
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure(); // Use secure axios instance
 
-  useEffect(() => {
-    // Fetch payment history for the logged-in employee
-    axiosPublic
-      .get(`/payments/${user?.email}`) // Replace with your API endpoint
-      .then((response) => {
-        const sortedData = response.data.sort((a, b) => {
-          // Sort by year and month (earliest first)
-          if (a.year === b.year) return a.month.localeCompare(b.month);
-          return a.year - b.year;
-        });
-        setPaymentData(sortedData);
-      })
-      .catch((error) => console.error("Error fetching payment history:", error));
-  }, []);
+  const { data: paymentData = [], isLoading, error } = useQuery({
+    queryKey: ["payroll", user?.email],
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/payroll/${user?.email}`);
+      return response.data;
+    },
+    enabled: !!user?.email
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+    console.log(paymentData);
 
   // Pagination logic
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -46,10 +43,10 @@ const PaymentHistory = () => {
         </thead>
         <tbody>
           {currentRows.map((payment, index) => (
-            <tr key={index}>
+            <tr key={index} className="text-center">
               <td className="border px-4 py-2">{payment.month}</td>
               <td className="border px-4 py-2">{payment.year}</td>
-              <td className="border px-4 py-2">${payment.amount}</td>
+              <td className="border px-4 py-2">$ {payment.salary}</td>
               <td className="border px-4 py-2">{payment.transactionId}</td>
             </tr>
           ))}

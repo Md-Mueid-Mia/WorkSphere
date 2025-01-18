@@ -106,6 +106,9 @@ console.log("isHR", isHR, "isAdmin", isAdmin, "isEmployee", isEmployee);
                     <>
                       <Link to="/dashboard/all-employee-list">
                         <li className="p-3 cursor-pointer">All Employee List</li>
+                      </Link> 
+                      <Link to="/dashboard/payroll">
+                        <li className="p-3 cursor-pointer">Payroll</li>
                       </Link>
                     </>
                   )}

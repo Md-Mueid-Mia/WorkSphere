@@ -7,7 +7,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TextField,
   MenuItem,
   Select,
   FormControl,
@@ -22,8 +21,7 @@ const WorkRecords = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const axiosSecure = useAxiosSecure();
 
-  // Filter work records based on the selected employee and month
-  const { data: employees = [], refetch } = useQuery({
+  const { data: employees = [] } = useQuery({
     queryKey: ["workRecords"],
     queryFn: async () => {
       try {
@@ -35,7 +33,20 @@ const WorkRecords = () => {
       }
     },
   });
-  console.log(employees);
+
+  // Extract unique employee names
+  const uniqueEmployees = [...new Set(employees.map((emp) => emp.name))];
+
+  // Filter data based on selected filters
+  const filteredRecords = employees.filter((record) => {
+    const recordDate = new Date(record.data.date);
+    const matchesEmployee = selectedEmployee ? record.name === selectedEmployee : true;
+    const matchesYear = selectedYear ? recordDate.getFullYear() === parseInt(selectedYear) : true;
+    const matchesMonth = selectedMonth ? recordDate.getMonth() + 1 === parseInt(selectedMonth) : true;
+
+    return matchesEmployee && matchesYear && matchesMonth;
+  });
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-semibold mb-4">Work Records</h1>
@@ -51,9 +62,9 @@ const WorkRecords = () => {
             <MenuItem value="">
               <em>All Employees</em>
             </MenuItem>
-            {employees.map((employee) => (
-              <MenuItem key={employee._id} value={employee._id}>
-                {employee.name}
+            {uniqueEmployees.map((name, index) => (
+              <MenuItem key={index} value={name}>
+                {name}
               </MenuItem>
             ))}
           </Select>
@@ -75,6 +86,7 @@ const WorkRecords = () => {
             ))}
           </Select>
         </FormControl>
+
         <FormControl className="w-1/3">
           <InputLabel>Year</InputLabel>
           <Select
@@ -86,7 +98,7 @@ const WorkRecords = () => {
             </MenuItem>
             {Array.from({ length: 20 }, (_, i) => {
               const currentYear = new Date().getFullYear();
-              const year = currentYear - i; // Display last 20 years
+              const year = currentYear - i;
               return (
                 <MenuItem key={year} value={year}>
                   {year}
@@ -102,26 +114,16 @@ const WorkRecords = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>
-                <strong>Employee Name</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Email</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Task</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Hours</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Date</strong>
-              </TableCell>
+              <TableCell><strong>Employee Name</strong></TableCell>
+              <TableCell><strong>Email</strong></TableCell>
+              <TableCell><strong>Task</strong></TableCell>
+              <TableCell><strong>Hours</strong></TableCell>
+              <TableCell><strong>Date</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {employees.length > 0 ? (
-              employees.map((record) => (
+            {filteredRecords.length > 0 ? (
+              filteredRecords.map((record) => (
                 <TableRow key={record._id}>
                   <TableCell>{record.name}</TableCell>
                   <TableCell>{record.email}</TableCell>
@@ -134,7 +136,7 @@ const WorkRecords = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={3} align="center">
+                <TableCell colSpan={5} align="center">
                   No records found.
                 </TableCell>
               </TableRow>

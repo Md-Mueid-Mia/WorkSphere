@@ -149,6 +149,10 @@ const EmployeeList = () => {
       // Proceed with payment if not already paid
       await axiosSecure.post("/payroll", {
         employeeId: selectedEmployee._id,
+        name: selectedEmployee?.Name,
+        email: selectedEmployee?.email,
+        bankAccountNo: selectedEmployee?.bank_account_no,
+        designation: selectedEmployee?.designation,
         ...paymentDetails,
       });
 
@@ -172,7 +176,7 @@ const EmployeeList = () => {
       });
     }
 };
-
+console.log(selectedEmployee);
   
   // Handle modal input changes
   const handleInputChange = (e) => {
@@ -266,6 +270,7 @@ const EmployeeList = () => {
             fullWidth
             margin="dense"
           />
+          
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsModalOpen(false)} color="secondary">

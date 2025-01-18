@@ -18,6 +18,7 @@ import AllEmployeeList from './../Pages/DashBoard/Admin/AllEmployeeList';
 import AdminRoute from "./AdminRoute";
 import HrRoutes from "./HrRoutes";
 import EmployeeRoute from "./EmployeeRoute";
+import Payroll from "../Pages/DashBoard/Admin/Payroll";
 
 const router = createBrowserRouter([
     {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
       path: 'all-employee-list',
       element: <AdminRoute><AllEmployeeList></AllEmployeeList></AdminRoute>
     },
+    {
+      path: 'payroll',
+      element: <AdminRoute><Payroll></Payroll></AdminRoute>
+    }
 
   ]
  }
