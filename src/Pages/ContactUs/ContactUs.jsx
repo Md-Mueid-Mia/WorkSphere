@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import message from '../../assets/Message.svg'
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import useAuth from "../../Hooks/useAuth";
 
 const ContactUs = () => {
+  const {user} = useAuth()
     const axiosPublic = useAxiosPublic()
   const {
     register,
@@ -65,6 +67,7 @@ const ContactUs = () => {
                     },
                   })}
                   placeholder="Enter your name"
+                  defaultValue={user?.displayName}
                   className={`w-full px-4 py-2 border ${
                     errors.email
                       ? "border-red-500 focus:ring-red-500"
@@ -91,6 +94,7 @@ const ContactUs = () => {
                       message: "Enter a valid email address",
                     },
                   })}
+                  defaultValue={user?.email}
                   placeholder="Enter your email"
                   className={`w-full px-4 py-2 border ${
                     errors.email
@@ -117,7 +121,7 @@ const ContactUs = () => {
                     },
                   })}
                   placeholder="Type your message"
-                  rows="4"
+                  rows="8"
                   className={`w-full px-4 py-2 border ${
                     errors.message
                       ? "border-red-500 focus:ring-red-500"

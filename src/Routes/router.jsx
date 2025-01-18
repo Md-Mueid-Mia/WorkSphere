@@ -19,6 +19,7 @@ import AdminRoute from "./AdminRoute";
 import HrRoutes from "./HrRoutes";
 import EmployeeRoute from "./EmployeeRoute";
 import Payroll from "../Pages/DashBoard/Admin/Payroll";
+import Message from "../Pages/DashBoard/Admin/Message";
 
 const router = createBrowserRouter([
     {
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
     {
       path: 'payroll',
       element: <AdminRoute><Payroll></Payroll></AdminRoute>
+    },
+    {
+      path: 'messages',
+      element: <AdminRoute><Message></Message></AdminRoute>
     }
 
   ]
