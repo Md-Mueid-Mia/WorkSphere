@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid } from 'recharts';
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../../Components/LoadingSpiner";
 
 const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
 
@@ -12,50 +13,33 @@ const EmployeeDetails = () => {
   const axiosSecure =useAxiosSecure()
 
 
-const {data: employee = [], refetch} = useQuery({
-  queryKey: ["employee", slug], // Fixed: wrapped in array
-  queryFn: async () => {
-    try {
-      const res = await axiosSecure.get(`/users/${slug}`);
-      console.log('Employee info response:', res.data);
-      return res.data;
-    } catch (error) {
-      // console.error('Employee info failed:', error);
-    }
-  },
-})
+  const {data: employee = [], refetch} = useQuery({
+    queryKey: ["employee", slug],
+    queryFn: async () => {
+      try {
+        // Update the endpoint based on whether slug is an email or ID
+        const res = await axiosSecure.get(`/payroll/id/${slug}`);
+        if (!res.data || res.data.length === 0) {
+          throw new Error('No employee data found');
+        }
+        return res.data; // Return first item since it's an array
+      } catch (error) {
+        console.error('Error fetching employee:', error);
+        throw error;
+      }
+    },
+    retry: 1
+  });
 console.log(employee);
 
+if (!employee) return <LoadingSpinner></LoadingSpinner>
 
-  // useEffect(() => {
-  //   // Fetch employee details
-  //   axiosSecure.get(`/employees/${slug}`) // Replace with your API endpoint
-  //     .then((response) => {
-  //       const data = response.data;
-  //       setEmployee(data);
+const employeeData = employee.map(item=> ({
+  name: item.date,
+  salary: item.salary,
+  formattedDate: `${item.month}-${item.year}`,
+}))
 
-  //       // Prepare chart data
-  //       // setChartData({
-  //       //   labels: data.salaryHistory.map(item => `${item.month} '${item.year}`),
-  //       //   datasets: [
-  //       //     {
-  //       //       label: "Salary",
-  //       //       data: data.salaryHistory.map(item => item.salary),
-  //       //       backgroundColor: [
-  //       //         "#4CAF50",
-  //       //         "#FF9800",
-  //       //         "#FFEB3B",
-  //       //         "#03A9F4",
-  //       //       ],
-  //       //       borderWidth: 1,
-  //       //     },
-  //       //   ],
-  //       // });
-  //     })
-  //     .catch((error) => console.error("Error fetching employee data:", error));
-  // }, [slug]);
-
-//   if (!employee || !chartData) return <p>Loading...</p>;
 const data = [
   {
     name: "Page A",
@@ -129,7 +113,7 @@ const TriangleBar = (props) => {
       <BarChart
       width={800}
       height={300}
-      data={data}
+      data={employeeData}
       margin={{
         top: 20,
         right: 30,
@@ -138,10 +122,10 @@ const TriangleBar = (props) => {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
+      <XAxis dataKey="formattedDate" />
       <YAxis />
       <Bar
-        dataKey="uv"
+        dataKey="salary"
         fill="#8884d8"
         shape={<TriangleBar />}
         label={{ position: "top" }}

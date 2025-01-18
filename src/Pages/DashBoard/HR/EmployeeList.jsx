@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BsArrowUpRight } from "react-icons/bs";
 import {
   Table,
   TableBody,
@@ -33,10 +34,10 @@ const EmployeeList = () => {
     month: "",
     year: "",
   });
-  const axiosSecure = useAxiosSecure()
-  const axiosPublic = useAxiosPublic()
-   // Find this code:
-   
+  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
+  // Find this code:
+
   // Replace with:
   const { data: employees = [], refetch } = useQuery({
     queryKey: ["employees"], // Fixed: wrapped in array
@@ -49,25 +50,27 @@ const EmployeeList = () => {
         return [];
       }
     },
-  })
-// console.log(employees);
+  });
+  // console.log(employees);
   // Toggle verification
-    const handleVerificationToggle = async (employeeId, currentStatus) => {
+  const handleVerificationToggle = async (employeeId, currentStatus) => {
     try {
       const updatedStatus = !currentStatus;
-      
+
       // Use axiosSecure instead of axiosPublic for protected route
       await axiosSecure.patch(`/users/${employeeId}/verify`, {
         isVerified: updatedStatus,
       });
-  
+
       // Refetch data to update UI
       refetch();
-      
+
       toast.success(`Employee verification status updated successfully`);
-  
     } catch (error) {
-      console.error("Error updating verification status:", error.response?.data?.message || error.message);
+      console.error(
+        "Error updating verification status:",
+        error.response?.data?.message || error.message
+      );
       toast.error("Unauthorized. Please check your permissions.");
     }
   };
@@ -83,29 +86,6 @@ const EmployeeList = () => {
     setIsModalOpen(true);
   };
 
-  // Handle payment submission
-  // const handlePayRequest = async () => {
-  //   if (!selectedEmployee.isVerified) return;
-
-  //   try {
-  //     await axiosSecure.post("/payroll", {
-  //       employeeId: selectedEmployee,
-  //       ...paymentDetails,
-  //     });
-  //     setIsModalOpen(false);
-  //     // alert("Payment request created successfully");
-  //     // swal("Payment request created") alert
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "success",
-  //       title: "Payment request created successfully",
-  //       showConfirmButton: false,
-  //       timer: 1500
-  //     });
-  //   } catch (error) {
-  //     console.error("Error submitting payment request:", error);
-  //   }
-  // };
   const handlePayRequest = async () => {
     if (!selectedEmployee.isVerified) {
       Swal.fire({
@@ -143,7 +123,7 @@ const EmployeeList = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        return setIsModalOpen(false);;
+        return setIsModalOpen(false);
       }
 
       // Proceed with payment if not already paid
@@ -164,7 +144,6 @@ const EmployeeList = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-
     } catch (error) {
       console.error("Error submitting payment request:", error);
       Swal.fire({
@@ -175,15 +154,15 @@ const EmployeeList = () => {
         timer: 1500,
       });
     }
-};
-console.log(selectedEmployee);
-  
+  };
+  console.log(selectedEmployee);
+
   // Handle modal input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPaymentDetails((prev) => ({ ...prev, [name]: value }));
   };
-// console.log(selectedEmployee,paymentDetails);
+  // console.log(selectedEmployee,paymentDetails);
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-semibold mb-4">Employee List</h1>
@@ -191,13 +170,27 @@ console.log(selectedEmployee);
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell><strong>Name</strong></TableCell>
-              <TableCell><strong>Email</strong></TableCell>
-              <TableCell><strong>Verified</strong></TableCell>
-              <TableCell><strong>Bank Account</strong></TableCell>
-              <TableCell><strong>Salary</strong></TableCell>
-              <TableCell><strong>Pay</strong></TableCell>
-              <TableCell><strong>Details</strong></TableCell>
+              <TableCell>
+                <strong>Name</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Email</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Verified</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Bank Account</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Salary</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Pay</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Details</strong>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -208,7 +201,10 @@ console.log(selectedEmployee);
                 <TableCell>
                   <IconButton
                     onClick={() =>
-                      handleVerificationToggle(employee._id, employee.isVerified)
+                      handleVerificationToggle(
+                        employee._id,
+                        employee.isVerified
+                      )
                     }
                   >
                     {employee.isVerified ? (
@@ -232,9 +228,17 @@ console.log(selectedEmployee);
                   </Button>
                 </TableCell>
                 <TableCell>
-                  <Link to={`/dashboard/details/${employee._id}`}><Button variant="outlined" color="secondary">
-                    Details
-                  </Button></Link>
+                  {employee.isVerified ? (
+                    <Link to={`/dashboard/details/${employee._id}`}>
+                      <Button color="secondary">
+                        <BsArrowUpRight />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button disabled color="secondary">
+                      <BsArrowUpRight />
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -270,7 +274,6 @@ console.log(selectedEmployee);
             fullWidth
             margin="dense"
           />
-          
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsModalOpen(false)} color="secondary">
