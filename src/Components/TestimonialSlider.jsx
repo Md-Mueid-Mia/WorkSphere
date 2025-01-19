@@ -83,7 +83,7 @@ const TestimonialSlider = () => {
     <div>
       <h2 className="py-5 text-3xl font-bold text-center">Testimonials</h2>
       <div className="w-full max-w-4xl mx-auto p-3 md:p-6">
-      <div className="relative bg-white shadow-lg border rounded-lg p-4 md:p-8 text-center">
+      <div className="relative bg-gradient-to-br from-blue-50 via-white to-blue-100 shadow-lg border rounded-lg p-4 md:p-8 text-center">
         <img
           src={testimonials[current]?.image}
           referrerPolicy="no-referrer"
