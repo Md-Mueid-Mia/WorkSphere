@@ -124,15 +124,15 @@ const SignUp = () => {
         <meta charSet="utf-8" />
         <title>Work Sphere || SignUp</title>
       </Helmet>
-      <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content flex-col md:flex-row">
-          <div className="text-center md:w-1/2 lg:text-left">
-            <img src={img} alt="" />
+      <div className="hero bg-base-200 pt-32 pb-16 md:py-32  min-h-screen overflow-hidden">
+        <div className="hero-content flex-col md:flex-row p-0 px-2">
+          <div className="text-center w-full md:w-1/2 lg:text-left">
+            <img src={img} alt="" className="w-72 md:w-full mx-auto  md:pt-0"/>
           </div>
-          <div className="card md:w-1/2  shrink-0 shadow-2xl">
+          <div className="card w-full md:w-1/2 mx-auto  shadow-2xl p-4">
             {/* Use handleSubmit from react-hook-form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-              <h1 className="text-5xl font-bold">Sign-Up now!</h1>
+            <form onSubmit={handleSubmit(onSubmit)} className="card-body p-0">
+              <h1 className="text-5xl font-bold text-center">Sign-Up now!</h1>
 
               {/* name */}
               <div className="form-control ">
@@ -150,9 +150,9 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div className="flex gap-1">
+              <div className="flex flex-col md:flex-row gap-1">
                 {/* bank acc */}
-                <div className="form-control w-[95%]">
+                <div className="form-control md:w-[95%]">
                   <label className="block text-gray-700">
                     Bank account number
                   </label>
@@ -168,18 +168,10 @@ const SignUp = () => {
                     <span>{errors.bank_account_no.message}</span>
                   )}
                 </div>
-                {/* <div>
-          <label>Bank Account Number</label>
-          <input
-            type="text"
-            value={bankAccountNumber}
-            onChange={(e) => setBankAccountNumber(e.target.value)}
-            placeholder="Bank Account Number"
-          />
-        </div> */}
+               
 
                 {/* salary */}
-                <div className="form-control w-[95%]">
+                <div className="form-control md:w-[95%]">
                   <label className="block text-gray-700">Salary</label>
                   <input
                     type="text"
@@ -220,7 +212,7 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div className="flex gap-1">
+              <div className="flex flex-col md:flex-row gap-1">
                 {/* email */}
                 <div className="form-control">
                   <label className="label">

@@ -48,12 +48,12 @@ const WorkRecords = () => {
   });
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto px-4 md:p-6">
       <h1 className="text-2xl font-semibold mb-4">Work Records</h1>
 
       {/* Filters */}
-      <div className="flex gap-4 mb-6">
-        <FormControl className="w-1/3">
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <FormControl className="w-full md:w-1/3">
           <InputLabel>Employee</InputLabel>
           <Select
             value={selectedEmployee}
@@ -70,7 +70,7 @@ const WorkRecords = () => {
           </Select>
         </FormControl>
 
-        <FormControl className="w-1/3">
+        <FormControl className="w-full md:w-1/3">
           <InputLabel>Month</InputLabel>
           <Select
             value={selectedMonth}
@@ -87,7 +87,7 @@ const WorkRecords = () => {
           </Select>
         </FormControl>
 
-        <FormControl className="w-1/3">
+        <FormControl className="w-full md:w-1/3">
           <InputLabel>Year</InputLabel>
           <Select
             value={selectedYear}

@@ -164,7 +164,7 @@ const EmployeeList = () => {
   };
   // console.log(selectedEmployee,paymentDetails);
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto px-3 md:p-6">
       <h1 className="text-2xl font-semibold mb-4">Employee List</h1>
       <TableContainer component={Paper}>
         <Table>

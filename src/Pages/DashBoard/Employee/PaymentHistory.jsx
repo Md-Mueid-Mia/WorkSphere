@@ -30,8 +30,9 @@ const PaymentHistory = () => {
   const totalPages = Math.ceil(paymentData.length / rowsPerPage);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto px-4 md:p-6">
       <h1 className="text-2xl font-bold mb-4">Payment History</h1>
+      <div className="overflow-x-auto">
       <table className="table-auto w-full border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
@@ -52,6 +53,7 @@ const PaymentHistory = () => {
           ))}
         </tbody>
       </table>
+      </div>
 
       {/* Pagination Controls */}
       {paymentData.length > rowsPerPage && (

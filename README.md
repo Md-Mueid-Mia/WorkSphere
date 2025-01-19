@@ -1,9 +1,9 @@
-# AllEmployeeList - Employee Management System
+# WorkSphere - Employee Management System
 
-Welcome to **AllEmployeeList**, a powerful and user-friendly Employee Management System designed to streamline workforce administration and HR processes. This application allows admins to view, manage, and update employee details efficiently.
+Welcome to **WorkSphere**, a powerful and user-friendly Employee Management System designed to streamline workforce administration and HR processes. This application allows admins to view, manage, and update employee details efficiently.
 
 ## 🔗 Live Site URL
-[Visit AllEmployeeList Live Site](https://example.com)
+[Visit WorkSphere Live Site](https://example.com)
 
 ## 👩‍💼 Admin Credentials
 - **Username**: `admin@gmail.com`
@@ -48,7 +48,7 @@ Welcome to **AllEmployeeList**, a powerful and user-friendly Employee Management
 ---
 
 ## 🛠️ Tech Stack
-- **Frontend**: React.js, Tailwind CSS, DaisyUI
+- **Frontend**: React.js, Tailwind CSS
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Libraries**: React Query, Axios, SweetAlert2, React Icons

@@ -115,7 +115,7 @@ const WorkSheet = () => {
 
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto px-4 md:p-6">
       {/* Work form */}
       <form
         onSubmit={handleSubmit(onSubmit)}

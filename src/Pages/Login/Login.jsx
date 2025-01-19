@@ -61,12 +61,12 @@ const axiosSecure = useAxiosSecure()
           };
   return (
     <>
-      <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content flex-col md:flex-row-reverse">
+      <div className="hero pt-20 md:pt-0 min-h-screen bg-base-200 ">
+        <div className="hero-content flex-col  md:flex-row-reverse overflow-hidden">
           <div className="text-center md:w-1/2 lg:text-left">
             <img src={loginImg} alt="" />
           </div>
-          <div className="card md:w-1/2 max-w-sm shadow-2xl bg-base-100">
+          <div className="card w-full md:w-1/2 max-w-sm shadow-2xl bg-base-100">
             <form onSubmit={handleLogin} className="card-body">
               <div className="form-control">
                 <label className="label">
@@ -106,7 +106,7 @@ const axiosSecure = useAxiosSecure()
             </form>
             <p className="text-center">
               <small>
-                New Here? <Link to="/signup">Create an account</Link>
+                New Here? <Link to="/signup" className="text-orange-400">Create an account</Link>
               </small>
             </p>
             <p className="text-center pb-2">Or sign In with</p>

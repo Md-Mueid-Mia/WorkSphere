@@ -154,17 +154,13 @@ const AllEmployeeList = () => {
                     </button>
                   )}
                 </td>
-                {/* <td className="border border-gray-300 px-4 py-2">
-                  <Link>
-                    <GoArrowUpRight />
-                  </Link>
-                </td> */}
+                
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
           {employees.map((employee) => (
             <div key={employee._id} className="border p-4 rounded shadow">
               <h3 className="font-bold text-lg">{employee.Name}</h3>
