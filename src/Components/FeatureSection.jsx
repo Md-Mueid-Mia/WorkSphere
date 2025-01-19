@@ -29,7 +29,7 @@ const FeatureSection = () => {
     },
   ];
   return (
-    <section className="bg-gradient-to-br from-blue-50 via-white to-blue-100 py-16 px-6 md:px-12">
+    <section className="bg-gradient-to-br from-blue-50 via-white to-blue-100 py-16 px-4 md:px-12">
       <div className="max-w-7xl mx-auto text-center">
         <h2 className="text-3xl font-extrabold text-gray-800 sm:text-4xl">
           Why Choose Our Recruitment Solutions?
@@ -42,7 +42,7 @@ const FeatureSection = () => {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-transparent hover:border-blue-500"
+            className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow px-3 py-6 text-center md:p-6 border border-transparent hover:border-blue-500"
           >
             <div className="flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mx-auto group-hover:bg-blue-600 group-hover:text-white">
               <FaCheckCircle className="w-8 h-8" />
