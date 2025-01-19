@@ -13,7 +13,7 @@ const useHR = () => {
         queryFn: async () => {
             try {
                 const res = await axiosSecure.get(`/users/hr/${user?.email}`);
-                console.log('HR info response:', res.data);
+                // console.log('HR info response:', res.data);
                 return res.data;
             } catch (error) {
                 // console.error('HR info failed:', error);

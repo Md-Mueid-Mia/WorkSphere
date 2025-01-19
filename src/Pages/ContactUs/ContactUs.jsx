@@ -16,11 +16,11 @@ const ContactUs = () => {
   } = useForm();
 
   const onSubmit = async(data) => {
-    console.log("Form Submitted: ", data);
+    // console.log("Form Submitted: ", data);
     // Handle the form data submission to the backend here
     await axiosPublic.post('/messages', data)
     .then(res=>{
-        console.log('data submitted');
+        // console.log('data submitted');
         // swal alert for success to send message
         Swal.fire({
             position: "center",

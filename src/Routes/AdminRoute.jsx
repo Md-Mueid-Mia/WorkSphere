@@ -9,7 +9,7 @@ const AdminRoute = ({children}) => {
     const {user, loading} =useAuth();
     const [isAdmin, isAdminLoading] = useAdmin();
     const location = useLocation();
-    console.log(isAdmin , user);
+    // console.log(isAdmin , user);
 
   if (loading || isAdminLoading) {
     return <LoadingSpinner></LoadingSpinner>

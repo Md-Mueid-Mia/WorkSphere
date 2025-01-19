@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { IoCheckmarkDone } from "react-icons/io5";
 
 const AllEmployeeList = () => {
-  //   const [employees, setEmployees] = useState([]);
   const [isTableView, setIsTableView] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [newSalary, setNewSalary] = useState(0);
@@ -25,23 +24,7 @@ const AllEmployeeList = () => {
       return res.data;
     },
   });
-  console.log(employees);
-  const updateEmployee = async (id, updates) => {
-    // const updatedEmployee = await axiosSecure.patch(`/users/${id}`, {updates: updates})
-    // fetch(`/users/${id}`, {
-    //   method: "PATCH",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(updates),
-    // })
-    //   .then((res) => res.json())
-    //   .then(() => {
-    //     setEmployees((prev) =>
-    //       prev.map((employee) =>
-    //         employee.id === id ? { ...employee, ...updates } : employee
-    //       )
-    //     );
-    //   });
-  };
+ 
 
   const handleFireEmployee = (id) => {
     Swal.fire({
@@ -57,7 +40,7 @@ const AllEmployeeList = () => {
         await axiosSecure
           .patch(`/users/${id}`, { fired: true })
           .then((response) => {
-            console.log("Made HR:", response);
+            // console.log("Made HR:", response);
             refetch();
             Swal.fire("Success", "Employee fired successfully", "success");
           });
@@ -67,21 +50,21 @@ const AllEmployeeList = () => {
 
   const handleMakeHR = async (id) => {
     await axiosSecure.patch(`/users/${id}`, { role: "HR" }).then((response) => {
-      console.log("Made HR:", response);
+      // console.log("Made HR:", response);
       refetch();
       Swal.fire("Success", "Employee promoted to HR", "success");
     });
   };
-  console.log(newSalary);
+  // console.log(newSalary);
 
   const handleAdjustSalary = async (id) => {
-    console.log(id);
+    // console.log(id);
     if (selectedEmployee && newSalary > selectedEmployee.salary) {
       //   updateEmployee(selectedEmployee._id, { salary: newSalary });
       const updatedEmployee = await axiosSecure.patch(`/users/${id}`, {
         salary: newSalary,
       });
-      console.log("Updated Employee:", updatedEmployee);
+      // console.log("Updated Employee:", updatedEmployee);
       refetch();
       setSelectedEmployee(null);
       setNewSalary(0);
@@ -152,7 +135,7 @@ const AllEmployeeList = () => {
                       className="bg-blue-500 text-white p-2 rounded"
                       onClick={() => handleMakeHR(employee._id)}
                     >
-                      Make HR
+                      HR
                     </button>
                   ) : (
                     <span ><IoCheckmarkDone className="mx-auto"/></span>
@@ -193,7 +176,7 @@ const AllEmployeeList = () => {
                     className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
                     onClick={() => handleMakeHR(employee.id)}
                   >
-                    Make HR
+                     HR
                   </button>
                 ) : null}
                 {employee.fired ? (
@@ -207,7 +190,7 @@ const AllEmployeeList = () => {
                   </button>
                 )}
                 <button
-                  className="bg-green-500 text-white px-3 py-1 rounded"
+                  className="bg-green-500 text-white px-3 py-1 mt-2 rounded"
                   onClick={() => setSelectedEmployee(employee)}
                 >
                   Adjust Salary

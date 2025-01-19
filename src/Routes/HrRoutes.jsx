@@ -8,7 +8,7 @@ const HrRoutes = ({children}) => {
     const {user, loading} =useAuth();
     const [isHR, isHRLoading] = useHR();
     const location = useLocation();
-    console.log(isHR);
+    // console.log(isHR);
 
   if (loading || isHRLoading) {
     return <LoadingSpinner></LoadingSpinner>

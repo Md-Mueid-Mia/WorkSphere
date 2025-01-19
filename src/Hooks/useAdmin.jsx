@@ -12,7 +12,7 @@ const useAdmin = () => {
         queryFn: async () => {
             try {
                 const res = await axiosSecure.get(`/users/admin/${user?.email}`);
-                console.log('Admin check response:', res.data);
+                // console.log('Admin check response:', res.data);
                 return res.data?.admin;
             } catch (error) {
                 // console.error('Admin check failed:', error);
@@ -20,7 +20,7 @@ const useAdmin = () => {
             }
         }
     })
-    console.log(isAdmin, user);
+    // console.log(isAdmin, user);
     return [isAdmin, isAdminLoading]
 };
 

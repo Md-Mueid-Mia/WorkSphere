@@ -20,7 +20,7 @@ const PaymentHistory = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-    console.log(paymentData);
+    // console.log(paymentData);
 
   // Pagination logic
   const indexOfLastRow = currentPage * rowsPerPage;

@@ -16,10 +16,10 @@ const SocialLogin = () => {
     const handleGoogleSignin =async () => {
         googleSignIn()
         .then(res=>{
-            console.log(res.user)
+            // console.log(res.user)
             if(res.user.email){
                 Swal.fire({
-                    position: "top-end",
+                    position: "center",
                     icon: "success",
                     title: "Your Successfully Signed",
                     showConfirmButton: false,
@@ -36,7 +36,7 @@ const SocialLogin = () => {
             }
             axiosPublic.post('/users', userInfo)
              .then(res=>{
-                console.log(res.data)
+                // console.log(res.data)
                 navigate('/')
              })
         })

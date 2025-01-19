@@ -12,9 +12,6 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const SignUp = () => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [bankAccountNumber, setBankAccountNumber] = useState("");
   const { createUser, updateUserProfile, setLoading, user } =
     useContext(AuthContext);
   const navigate = useNavigate();
@@ -25,12 +22,10 @@ const SignUp = () => {
     reset,
     formState: { errors },
   } = useForm();
-  console.log(user);
+  // console.log(user);
 
   const onSubmit = async (data) => {
-    if (!stripe || !elements) {
-      return;
-    }
+    
     const {
       email,
       Name,
@@ -40,8 +35,8 @@ const SignUp = () => {
       salary,
       designation,
     } = data;
-    console.log(data.image[0]);
-    console.log(data);
+    // console.log(data.image[0]);
+    // console.log(data);
     // Add loading state
     setLoading(true);
 
@@ -61,7 +56,7 @@ const SignUp = () => {
         const photoData = new FormData();
         photoData.append("image", data.image[0]);
 
-        console.log("Uploading photo to ImgBB...");
+        // console.log("Uploading photo to ImgBB...");
 
         const imgbbResponse = await axios.post(
           `https://api.imgbb.com/1/upload?key=${
@@ -71,7 +66,7 @@ const SignUp = () => {
         );
 
         const photo = imgbbResponse.data.data.display_url;
-        console.log("Photo uploaded to ImgBB:", photo);
+        // console.log("Photo uploaded to ImgBB:", photo);
 
         if (!imgbbResponse.data.success) {
           throw new Error("Failed to upload image to ImgBB");
@@ -168,7 +163,6 @@ const SignUp = () => {
                     })}
                     placeholder="Bank Account No"
                     className="input input-bordered"
-                    onChange={(e) => setBankAccountNumber(e.target.value)}
                   />
                   {errors.bank_account_no && (
                     <span>{errors.bank_account_no.message}</span>

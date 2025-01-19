@@ -9,7 +9,7 @@ const EmployeeRoute = ({children}) => {
     const {user, loading} =useAuth();
     const [isEmployee, isEmployeeLoading] = useEmployee();
     const location = useLocation();
-    console.log(isEmployee , user);
+    // console.log(isEmployee , user);
 
   if (loading || isEmployeeLoading) {
     return <LoadingSpinner></LoadingSpinner>;

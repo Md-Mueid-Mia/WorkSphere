@@ -30,7 +30,7 @@ const EmployeeDetails = () => {
     },
     retry: 1
   });
-console.log(employee);
+// console.log(employee);
 
 if (!employee) return <LoadingSpinner></LoadingSpinner>
 

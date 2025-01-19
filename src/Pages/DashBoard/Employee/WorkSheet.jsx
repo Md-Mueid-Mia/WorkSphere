@@ -31,7 +31,7 @@ const WorkSheet = () => {
       return response.data;
     },
   });
-console.log(workEntries);
+// console.log(workEntries);
   // Add new entry
   const onSubmit = async (data) => {
     try {
@@ -66,7 +66,7 @@ console.log(workEntries);
   const handleUpdate = async (data) => {
     try {
       const updatedData = { ...selectedEntry, data };
-      console.log(updatedData);
+      // console.log(updatedData);
       await axiosSecure.put(`/work-progress/${selectedEntry._id}`, updatedData);
 
       Swal.fire({
