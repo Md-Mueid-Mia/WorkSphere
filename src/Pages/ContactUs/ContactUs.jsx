@@ -35,9 +35,9 @@ const ContactUs = () => {
   };
 
   return (
-    <div className=" px-5 py-20 bg-gray-100">
+    <div className=" px-4 py-20 bg-gray-100">
       <h1 className="text-3xl font-bold text-center mb-6">Contact Us</h1>
-      <div className="bg-white shadow-lg rounded-lg w-full  p-6">
+      <div className=" from-blue-50 via-white to-blue-100 shadow-lg rounded-lg w-full px-3 py-6 md:p-6">
         <div className="flex flex-col md:flex-row gap-6">
           <div>
             <img src={message} alt="" />

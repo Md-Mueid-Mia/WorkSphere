@@ -68,13 +68,13 @@ const Services = () => {
   ];
 
   return (
-    <div className="mx-auto py-16 px-6 md:px-12 bg-gradient-to-br from-blue-50 via-white to-blue-100">
+    <div className="mx-auto py-16 px-4 md:px-12 bg-gradient-to-br from-blue-50 via-white to-blue-100">
       <h2 className="text-2xl font-bold text-center mb-8">Our Services</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service) => (
           <div
             key={service.id}
-            className="bg-gray-400 text-white shadow-lg rounded-lg p-6 text-center hover:scale-105 transition-transform"
+            className="bg-gray-400 text-white shadow-lg rounded-lg px-3 py-6 md:p-6 text-center hover:scale-105 transition-transform"
           >
             <div className="text-5xl mb-4">{service.icon}</div>
             <h3 className="text-xl font-bold mb-2">{service.title}</h3>
