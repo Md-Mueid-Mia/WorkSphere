@@ -12,9 +12,9 @@ const Home = () => {
         <div>
            
             <Carousel></Carousel>
-            <FeatureSection />
             <Services></Services>
             <AboutUs></AboutUs>
+            <FeatureSection />
 
             <TestimonialSlider></TestimonialSlider>
             

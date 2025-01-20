@@ -74,12 +74,12 @@ const Services = () => {
         {services.map((service) => (
           <div
             key={service.id}
-            className="bg-gray-400 text-white shadow-lg rounded-lg px-3 py-6 md:p-6 text-center hover:scale-105 transition-transform"
+            className="bg-white text-black shadow-lg rounded-lg px-3 py-6 md:p-6 text-center hover:scale-105 transition-transform"
           >
             <div className="text-5xl mb-4">{service.icon}</div>
             <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-            <p className="text-white/90 mb-4">{service.description}</p>
-            <button className="bg-white text-indigo-600 font-semibold px-4 py-2 rounded hover:bg-indigo-200">
+            <p className=" mb-4">{service.description}</p>
+            <button className="bg-slate-300 text-indigo-600 font-semibold px-4 py-2 rounded hover:bg-indigo-200">
               {service.cta}
             </button>
           </div>
