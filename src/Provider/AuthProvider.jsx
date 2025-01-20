@@ -6,6 +6,7 @@ import { createContext } from 'react';
 // import useAxiosPublic from '../Hooks/useAxiosPublic';
 import auth from '../Firebase/firebase.config';
 import axios from 'axios';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
 
 
 export const AuthContext = createContext(null)
@@ -16,7 +17,7 @@ const AuthProvider = ({children}) => {
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
     const facebookProvider = new FacebookAuthProvider();
-    // const axiosPublic = useAxiosPublic()
+    const axiosPublic = useAxiosPublic()
 
     const createUser = (email, password)=>{
         setLoading(true)
@@ -74,11 +75,11 @@ const AuthProvider = ({children}) => {
     // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async currentUser => {
-      console.log('CurrentUser-->', currentUser?.email)
+      // console.log('CurrentUser-->', currentUser?.email)
       if (currentUser?.email) {
         setUser(currentUser)
-        await axios.post(
-          `${import.meta.env.VITE_API_URL}/jwt`,
+        await axiosPublic.post(
+          `/jwt`,
           {
             email: currentUser?.email,
           },

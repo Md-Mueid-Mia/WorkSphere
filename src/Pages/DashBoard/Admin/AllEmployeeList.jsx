@@ -96,6 +96,7 @@ const AllEmployeeList = () => {
               <th className="border border-gray-300 px-4 py-2">Name</th>
               <th className="border border-gray-300 px-4 py-2">Email</th>
               <th className="border border-gray-300 px-4 py-2">Designation</th>
+              <th className="border border-gray-300 px-4 py-2">Salary</th>
               <th className="border border-gray-300 px-4 py-2">
                 Bank Account No
               </th>
@@ -118,6 +119,9 @@ const AllEmployeeList = () => {
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {employee.designation}
+                </td> 
+                <td className="border border-gray-300 px-4 py-2">
+                  {employee.salary}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {employee.bank_account_no}

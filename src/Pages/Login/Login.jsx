@@ -7,13 +7,15 @@ import useAuth from "../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import axios from "axios";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Login = () => {
   const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn } = useAuth();
+  const { signIn, signOutUser } = useAuth();
 const axiosSecure = useAxiosSecure()
+const axiosPublic = useAxiosPublic()
   const from = location?.state || "/";
 
                   const handleLogin = async (event) => {
@@ -28,8 +30,8 @@ const axiosSecure = useAxiosSecure()
               await signIn(email, password);
               
               // Get JWT and set cookie
-              await axios.post(
-                `${import.meta.env.VITE_API_URL}/jwt`,
+              await axiosPublic.post(
+                `/jwt`,
                 { email },
                 { withCredentials: true }
               );
@@ -38,7 +40,14 @@ const axiosSecure = useAxiosSecure()
               const userStatus = await axiosSecure.get(`/users/email/${email}`);
               
               if (userStatus.data?.fired) {
-                throw new Error("Your account has been terminated");
+                // throw new Error("Your account has been terminated");
+                Swal.fire({
+                  icon: "error",
+                  title: "Login Failed",
+                  text: "Your account has been terminated"
+                });
+                
+                return signOutUser();
               }
           
               Swal.fire({

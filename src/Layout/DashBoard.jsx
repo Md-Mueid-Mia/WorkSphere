@@ -17,7 +17,7 @@ const DashBoard = () => {
   const [isHR, isHRLoading] = useHR();
   const [isAdmin, isAdminLoading] = useAdmin();
   const [isEmployee,isEmployeeLoading] = useEmployee();
-console.log("isHR", isHR, "isAdmin", isAdmin, "isEmployee", isEmployee);
+// console.log("isHR", isHR, "isAdmin", isAdmin, "isEmployee", isEmployee);
   // Check if roles are loading
   if (isHRLoading) return <LoadingSpinner />;
   if (isAdminLoading) return <LoadingSpinner />;
