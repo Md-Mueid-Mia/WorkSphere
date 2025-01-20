@@ -3,7 +3,7 @@
 Welcome to **WorkSphere**, a powerful and user-friendly Employee Management System designed to streamline workforce administration and HR processes. This application allows admins to view, manage, and update employee details efficiently.
 
 ## 🔗 Live Site URL
-[Visit WorkSphere Live Site]("https://assignment-12-e3cab.web.app")
+[Visit WorkSphere Live Site](https://assignment-12-e3cab.web.app)
 
 ## 👩‍💼 Admin Credentials
 - **Username**: `admin@gmail.com`
