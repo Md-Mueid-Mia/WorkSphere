@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const Services = () => {
   const services = [
@@ -66,25 +67,83 @@ const Services = () => {
       cta: "Build My App"
     }
   ];
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
 
+  const cardVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
   return (
-    <div className="mx-auto py-16 px-4 md:px-12 bg-gradient-to-br from-blue-50 via-white to-blue-100">
-      <h2 className="text-2xl font-bold text-center mb-8">Our Services</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service) => (
-          <div
-            key={service.id}
-            className="bg-white text-black shadow-lg rounded-lg px-3 py-6 md:p-6 text-center hover:scale-105 transition-transform"
-          >
-            <div className="text-5xl mb-4">{service.icon}</div>
-            <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-            <p className=" mb-4">{service.description}</p>
-            <button className="bg-slate-300 text-indigo-600 font-semibold px-4 py-2 rounded hover:bg-indigo-200">
-              {service.cta}
-            </button>
-          </div>
-        ))}
-      </div>
+    <div className="min-h-screen py-20 px-4 md:px-12 bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="container mx-auto"
+      >
+        <h2 className="text-4xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
+          Our Services
+        </h2>
+        <p className="text-center mb-12 text-gray-600 dark:text-gray-300">
+          Transform your ideas into reality with our expert services
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service) => (
+            <motion.div
+              key={service.id}
+              variants={cardVariants}
+              whileHover={{ scale: 1.03 }}
+              className="relative backdrop-blur-lg bg-white/30 dark:bg-gray-800/30 rounded-xl p-6 
+                        shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
+                        border border-gray-200 dark:border-gray-700"
+            >
+              <div className="absolute top-0 right-0 m-4">
+                <span className="px-3 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                  Popular
+                </span>
+              </div>
+
+              <div className="text-6xl mb-6 transform transition-all hover:scale-110 hover:rotate-12">
+                {service.icon}
+              </div>
+
+              <h3 className="text-2xl font-bold mb-3 text-gray-800 dark:text-white">
+                {service.title}
+              </h3>
+
+              <p className="mb-6 text-gray-600 dark:text-gray-300">
+                {service.description}
+              </p>
+
+              <button className="w-full group relative inline-flex items-center justify-center px-6 py-3 
+                               overflow-hidden font-bold rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 
+                               text-white transition-all hover:bg-gradient-to-br hover:from-purple-500 hover:to-blue-400">
+                <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 
+                               rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span className="relative">{service.cta}</span>
+              </button>
+
+              <div className="mt-6 flex justify-between text-sm text-gray-500 dark:text-gray-400">
+                <span>⭐ 4.9/5</span>
+                <span>Starting from $99</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 };

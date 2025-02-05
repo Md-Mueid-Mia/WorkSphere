@@ -6,12 +6,14 @@ import TestimonialSlider from '../Components/TestimonialSlider';
 import Services from '../Components/Services';
 import AboutUs from '../Components/AboutUs';
 import FeatureSection from '../Components/FeatureSection';
+import Unique from '../Components/Unique';
 
 const Home = () => {
     return (
         <div>
            
             <Carousel></Carousel>
+            <Unique></Unique>
             <Services></Services>
             <AboutUs></AboutUs>
             <FeatureSection />

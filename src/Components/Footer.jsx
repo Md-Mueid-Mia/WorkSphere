@@ -1,41 +1,128 @@
-import React from 'react';
+import { motion } from 'framer-motion';
+import { FaFacebook, FaTwitter, FaLinkedin, FaArrowUp } from 'react-icons/fa';
 
 const Footer = () => {
-    return (
-        <footer className="flex flex-col text-black ">
-            <div className="flex flex-col items-center justify-around gap-5 bg-gray-300 py-8 dark:bg-gray-500 dark:text-white md:flex-row md:gap-0">
-                <h5 className="text-2xl font-bold">Work Sphere</h5>
-                <nav className="text-lg">
-                    <ul className=" flex h-full items-center justify-center gap-5">
-                        <li className="cursor-pointer">
-                            <a href='https://www.facebook.com' target="_blank">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current">
-                                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-                                </svg>
-                            </a>
-                        </li>
-                        <li className="cursor-pointer">
-                            <a href='https://www.youtube.com' target="_blank">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current">
-                                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
-                                </svg>
-                            </a>
-                        </li>
-                        <li className="cursor-pointer">
-                            <a href='https://x.com' target="_blank">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current">
-                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
+  return (
+    <footer className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white overflow-hidden">
+      {/* Wave Animation */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-12">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
+                className="fill-current text-gray-900 opacity-20"></path>
+        </svg>
+      </div>
+
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="max-w-7xl mx-auto px-4 pt-20 pb-12"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          {/* Company Info */}
+          <motion.div variants={itemVariants} className="space-y-4">
+            <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Work Sphere
+            </h3>
+            <p className="text-gray-400 pr-4">
+              Connecting talent with opportunity, building careers together.
+            </p>
+            <div className="flex space-x-4">
+              {[FaFacebook, FaTwitter, FaLinkedin].map((Icon, index) => (
+                <motion.a
+                  key={index}
+                  href="#"
+                  whileHover={{ scale: 1.2, y: -2 }}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <Icon size={24} />
+                </motion.a>
+              ))}
             </div>
-            <aside className="bg-gray-500 py-5 text-center text-sm text-white dark:bg-gray-800">
-                <p>&copy; 2025 WorkSphere. All Rights Reserved.</p>
-            </aside>
-        </footer>
-    );
+          </motion.div>
+
+          {/* Quick Links */}
+          <motion.div variants={itemVariants}>
+            <h4 className="text-xl font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              {['About', 'Careers', 'Services', 'Blog'].map((item, index) => (
+                <li key={index}>
+                  <a href="#" 
+                     className="text-gray-400 hover:text-white transition-all hover:pl-2 duration-300 block">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Contact Info */}
+          <motion.div variants={itemVariants}>
+            <h4 className="text-xl font-semibold mb-4">Contact Us</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li>1234 Career Street</li>
+              <li>New York, NY 10011</li>
+              <li>Phone: (555) 123-4567</li>
+              <li>Email: info@worksphere.com</li>
+            </ul>
+          </motion.div>
+
+          {/* Newsletter */}
+          <motion.div variants={itemVariants}>
+            <h4 className="text-xl font-semibold mb-4">Newsletter</h4>
+            <form className="space-y-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full px-4 py-2 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+              />
+              <button className="w-full px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105">
+                Subscribe
+              </button>
+            </form>
+          </motion.div>
+        </div>
+
+        {/* Copyright */}
+        <motion.div 
+          variants={itemVariants}
+          className="pt-8 mt-8 border-t border-gray-800 text-center text-gray-400"
+        >
+          <p>© 2024 Work Sphere. All rights reserved.</p>
+        </motion.div>
+      </motion.div>
+
+      {/* Back to Top Button */}
+      <motion.button
+        onClick={scrollToTop}
+        whileHover={{ scale: 1.1 }}
+        className="fixed bottom-8 right-8 p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg"
+      >
+        <FaArrowUp />
+      </motion.button>
+    </footer>
+  );
 };
 
 export default Footer;
