@@ -1,5 +1,5 @@
 # WorkSphere - Employee Management System
-<img src=""></img>
+<img src="https://i.ibb.co.com/TBVG4BxX/Logo-Normal-01-3.png"></img>
 
 Welcome to **WorkSphere**, a powerful and user-friendly Employee Management System designed to streamline workforce administration and HR processes. This application allows admins to view, manage, and update employee details efficiently.
 

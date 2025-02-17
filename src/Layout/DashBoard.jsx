@@ -160,6 +160,7 @@ import useAdmin from './../Hooks/useAdmin';
 import { useEmployee } from './../Hooks/useEmployee';
 import useHR from './../Hooks/useHR';
 import LoadingSpinner from './../Components/LoadingSpiner';
+import useAuth from '../Hooks/useAuth';
 
 const DashBoard = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -167,6 +168,7 @@ const DashBoard = () => {
   const [isHR, isHRLoading] = useHR();
   const [isAdmin, isAdminLoading] = useAdmin();
   const [isEmployee,isEmployeeLoading] = useEmployee();
+  const {user} = useAuth();
 // // console.log("isHR", isHR, "isAdmin", isAdmin, "isEmployee", isEmployee);
 //   // Check if roles are loading
   if (isHRLoading) return <LoadingSpinner />;
@@ -174,7 +176,7 @@ const DashBoard = () => {
   if (isEmployeeLoading) return <LoadingSpinner />;
 
   const commonMenuItems = [
-    { title: "Dashboard", icon: <FiHome />, path: "/dashboard" },
+    { title: "Home", icon: <FiHome />, path: "/" },
     { title: "Profile", icon: <FiUser />, path: "/dashboard/profile" },
     { title: "Settings", icon: <FiSettings />, path: "/dashboard/settings" }
   ];
@@ -202,107 +204,87 @@ const DashBoard = () => {
     ...(isAdmin ? adminMenuItems : [])
   ];
   const sidebarVariants = {
-    open: { width: "280px" },
+    open: { width: "300px" },
     closed: { width: "88px" }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="flex min-h-screen ">
       {/* Sidebar */}
-      <AnimatePresence>
-        <motion.div
-          initial="open"
-          animate={isOpen ? "open" : "closed"}
-          variants={sidebarVariants}
-          className="fixed top-0 left-0 h-screen bg-white shadow-lg z-50"
-        >
-          {/* Logo Section */}
-          <div className="p-4 flex items-center justify-between">
-            <Link to="/">
-            <motion.div 
-              initial={{ x: -20 }}
-              animate={{ x: 0 }}
-              className="flex items-center gap-3"
+      <div 
+        className={`
+          fixed left-0 top-0 h-screen bg-white 
+          shadow-lg transition-all duration-300 
+          ${isOpen ? 'w-72' : 'w-20'}
+        `}
+      >
+        {/* Toggle Button */}
+        <div className="p-4 border-b">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <FiMenu className="w-8 h-8" />
+          </button>
+        </div>
+
+        {/* Navigation Links */}
+        <nav className="flex flex-col gap-2 p-4">
+          {menuItems.map((item, index) => (
+            <motion.div
+              key={item.path}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: index * 0.1 }}
             >
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center">
-                <span className="text-white font-bold">WS</span>
-              </div>
-             
-              {isOpen && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex flex-col"
-                >
-                  <span className="font-bold text-gray-800">WorkSphere</span>
-                  <span className="text-xs text-gray-500">Dashboard</span>
-                </motion.div>
-              )}
-            </motion.div>
+              <Link
+                to={item.path}
+                className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${
+                  location.pathname === item.path
+                    ? "bg-purple-50 text-purple-600"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+              >
+                <span className="text-xl">{item.icon}</span>
+                {isOpen && <span>{item.title}</span>}
               </Link>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <FiMenu />
-            </button>
-          </div>
+            </motion.div>
+          ))}
+        </nav>
 
-          {/* Navigation */}
-          <nav className="mt-6 px-3">
-      {menuItems.map((item, index) => (
+        {/* User Profile */}
         <motion.div
-          key={item.path}
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: index * 0.1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="absolute bottom-0 left-0 right-0 p-4"
         >
-          <Link
-            to={item.path}
-            className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${
-              location.pathname === item.path
-                ? "bg-purple-50 text-purple-600"
-                : "text-gray-600 hover:bg-gray-50"
-            }`}
-          >
-            <span className="text-xl">{item.icon}</span>
-            {isOpen && <span>{item.title}</span>}
-          </Link>
+          <div className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+            <img
+              src={user?.photoURL}
+              alt="User"
+              className="w-10 h-10 rounded-full"
+            />
+            {isOpen && (
+              <div className="flex flex-col">
+                <span className="font-medium text-gray-800">{user?.displayName}</span>
+                <span className="text-sm text-gray-500">{user?.email}</span>
+              </div>
+            )}
+          </div>
         </motion.div>
-      ))}
-    </nav>
-
-          {/* User Profile */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute bottom-0 left-0 right-0 p-4"
-          >
-            <div className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <img
-                src="user-avatar.jpg"
-                alt="User"
-                className="w-10 h-10 rounded-full"
-              />
-              {isOpen && (
-                <div className="flex flex-col">
-                  <span className="font-medium text-gray-800">John Doe</span>
-                  <span className="text-xs text-gray-500">john@example.com</span>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
+      </div>
 
       {/* Main Content */}
-      <motion.main
-        initial={{ x: 280 }}
-        animate={{ x: isOpen ? 280 : 88 }}
-        className="flex-1 p-8 transition-all duration-300"
+      <div 
+        className={`
+          flex-1 transition-all duration-300
+          ${isOpen ? 'ml-64' : 'ml-20'}
+        `}
       >
-        <Outlet />
-      </motion.main>
+        <div className="p-4">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };

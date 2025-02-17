@@ -86,7 +86,7 @@ const Services = () => {
     }
   };
   return (
-    <div className="min-h-screen py-20 px-4 md:px-12 bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div id='services' className="min-h-screen py-20 px-4 md:px-12 bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <motion.div
         initial="hidden"
         animate="visible"

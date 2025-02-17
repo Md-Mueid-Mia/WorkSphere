@@ -23,9 +23,9 @@ const Unique = () => {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="relative h-screen flex items-center justify-center overflow-hidden"
+        className="relative h-auto flex items-center justify-center overflow-hidden"
       >
-        <motion.div style={{ y }} className="text-center text-white z-10">
+        {/* <motion.div style={{ y }} className="text-center my-auto text-white z-10">
           <motion.h1 
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -34,7 +34,7 @@ const Unique = () => {
           >
             Future of Recruitment
           </motion.h1>
-        </motion.div>
+        </motion.div> */}
 
         {/* Animated Background Elements */}
         {[...Array(20)].map((_, i) => (
@@ -58,6 +58,14 @@ const Unique = () => {
 
       {/* Feature Cards */}
       <div className="container mx-auto px-4 py-20">
+      <motion.h1 
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="text-6xl font-bold  mb-20 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600"
+          >
+            Future of Recruitment
+          </motion.h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div

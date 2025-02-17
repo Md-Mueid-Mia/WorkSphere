@@ -66,7 +66,7 @@ const FeatureSection = () => {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-20 px-4 overflow-hidden">
+    <section id='Choose' className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-20 px-4 overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       <motion.div 
