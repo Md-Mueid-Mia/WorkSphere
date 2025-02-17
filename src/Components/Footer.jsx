@@ -133,7 +133,7 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '../Provider/ThemeProvider';
 
 const Footer = () => {
-  const { theme } = useTheme();
+  const {  isDarkTheme } = useTheme();
   
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -188,7 +188,7 @@ const Footer = () => {
   return (
     <div className="w-full">
    <footer className={`relative ${
-        theme === 'dark' 
+        isDarkTheme  
           ? 'bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900' 
           : 'bg-gradient-to-b from-gray-50 via-white to-gray-50'
       }`}>
@@ -197,7 +197,7 @@ const Footer = () => {
           <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-16">
             <path 
               d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-              className={`fill-current ${theme === 'dark' ? 'text-slate-800' : 'text-gray-100'} opacity-50`}
+              className={`fill-current ${isDarkTheme  ? 'text-slate-800' : 'text-gray-100'} opacity-50`}
             />
           </svg>
         </div>
@@ -224,13 +224,13 @@ const Footer = () => {
                     <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
                       WorkSphere
                     </h3>
-                    <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                    <p className={`text-xs ${isDarkTheme  ? 'text-gray-400' : 'text-gray-600'}`}>
                       Connecting Talents
                     </p>
                   </div>
                 </motion.div>
               </Link>
-              <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'} text-sm leading-relaxed max-w-md mx-auto md:mx-0`}>
+              <p className={`${isDarkTheme  ? 'text-gray-400' : 'text-gray-600'} text-sm leading-relaxed max-w-md mx-auto md:mx-0`}>
                 Connecting talent with opportunity, building careers together. We're committed to helping professionals achieve their career goals through innovative solutions and personalized support.
               </p>
               <div className="flex items-center gap-4 justify-center md:justify-start">
@@ -243,9 +243,9 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'} ${color} 
+                    className={`${isDarkTheme ? 'text-gray-400' : 'text-gray-600'} ${color} 
                       transition-all duration-300 hover:shadow-lg p-2 rounded-full
-                      ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+                      ${isDarkTheme  ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
                   >
                     <Icon size={18} />
                   </motion.a>
@@ -256,7 +256,7 @@ const Footer = () => {
             {/* Navigation Links */}
             <motion.div variants={itemVariants} className="text-center md:text-left">
               <h4 className={`text-lg font-semibold mb-6 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
+               isDarkTheme ? 'text-white' : 'text-gray-900'
               }`}>
                 Quick Links
               </h4>
@@ -267,7 +267,7 @@ const Footer = () => {
                       <button
                         onClick={() => scrollToSection(link.scroll)}
                         className={`group flex items-center gap-2 text-sm
-                          ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
+                          ${isDarkTheme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
                           transition-all duration-300`}
                       >
                         <span className="w-0 group-hover:w-2 h-0.5 bg-purple-500 transition-all duration-300"/>
@@ -277,7 +277,7 @@ const Footer = () => {
                       <Link
                         to={link.path}
                         className={`group flex items-center gap-2 text-sm
-                          ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
+                          ${isDarkTheme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
                           transition-all duration-300`}
                       >
                         <span className="w-0 group-hover:w-2 h-0.5 bg-purple-500 transition-all duration-300"/>
@@ -292,7 +292,7 @@ const Footer = () => {
             {/* Contact Info */}
             <motion.div variants={itemVariants} className="text-center md:text-left">
               <h4 className={`text-lg font-semibold mb-6 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
+               isDarkTheme ? 'text-white' : 'text-gray-900'
               }`}>
                 Contact Us
               </h4>
@@ -304,7 +304,7 @@ const Footer = () => {
                   { text: "info@worksphere.com", icon: "📧" }
                 ].map((item, index) => (
                   <li key={index} className={`flex items-center gap-3 text-sm
-                    ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                    ${isDarkTheme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                     <span className="text-base">{item.icon}</span>
                     {item.text}
                   </li>
@@ -315,7 +315,7 @@ const Footer = () => {
             {/* Newsletter */}
             <motion.div variants={itemVariants} className="text-center md:text-left">
               <h4 className={`text-lg font-semibold mb-6 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
+               isDarkTheme ? 'text-white' : 'text-gray-900'
               }`}>
                 Newsletter
               </h4>
@@ -325,7 +325,7 @@ const Footer = () => {
                     type="email"
                     placeholder="Enter your email"
                     className={`w-full px-4 py-3 rounded-xl text-sm
-                      ${theme === 'dark' 
+                      ${isDarkTheme === 'dark' 
                         ? 'bg-gray-800/50 text-white focus:bg-gray-800' 
                         : 'bg-gray-100 text-gray-900 focus:bg-white'}
                       border border-transparent
@@ -352,10 +352,10 @@ const Footer = () => {
           <motion.div 
             variants={itemVariants}
             className={`pt-8 mt-8 border-t 
-              ${theme === 'dark' ? 'border-gray-800' : 'border-gray-200'}
+              ${isDarkTheme === 'dark' ? 'border-gray-800' : 'border-gray-200'}
               text-center`}
           >
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-sm ${isDarkTheme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
               © {new Date().getFullYear()} Work Sphere. All rights reserved.
             </p>
           </motion.div>

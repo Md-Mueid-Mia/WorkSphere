@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
 import { FaRocket, FaUsers, FaCog, FaChartLine, FaBriefcase, FaHandshake } from 'react-icons/fa';
 import CountUp from 'react-countup';
+import { useTheme } from '../Provider/ThemeProvider';
 
 const FeatureSection = () => {
+  const { isDarkTheme } = useTheme();
+  
   const features = [
     {
       icon: <FaRocket />,
@@ -66,31 +69,49 @@ const FeatureSection = () => {
   };
 
   return (
-    <section id='Choose' className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-20 px-4 overflow-hidden">
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+    <section 
+      id='Choose' 
+      className={`relative py-20 px-4 transition-all duration-300 ${
+        isDarkTheme
+          ? 'bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950'
+          : 'bg-gradient-to-br from-indigo-50 via-white to-purple-50'
+      }`}
+    >
+      {/* Background Pattern */}
+      <div className={`absolute inset-0 ${
+        isDarkTheme 
+          ? 'bg-grid-white/[0.02]'
+          : 'bg-grid-black/[0.05]'
+      } bg-[size:20px_20px]`}></div>
       
       <motion.div 
         initial="hidden"
         animate="visible"
         variants={containerVariants}
-        className="max-w-7xl mx-auto"
+        className="max-w-7xl mx-auto relative z-10"
       >
         <div className="text-center mb-16">
           <motion.h2 
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600"
+            className={`text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent ${
+              isDarkTheme
+                ? 'bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400'
+                : 'bg-gradient-to-r from-indigo-600 to-purple-600'
+            }`}
           >
             Why Choose Our Recruitment Solutions?
           </motion.h2>
           <motion.p 
             variants={itemVariants}
-            className="mt-4 text-gray-600 text-lg max-w-2xl mx-auto"
+            className={`mt-4 text-lg max-w-2xl mx-auto ${
+              isDarkTheme ? 'text-gray-300' : 'text-gray-600'
+            }`}
           >
             Discover a seamless way to connect with the right talent through our innovative solutions
           </motion.p>
         </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -98,22 +119,60 @@ const FeatureSection = () => {
               whileHover={{ y: -10, scale: 1.02 }}
               className="relative group h-full"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl blur opacity-0 group-hover:opacity-20 transition duration-300"></div>
-              <div className="relative bg-white rounded-xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
-                <div className="text-3xl text-indigo-600 mb-4">
+              {/* Hover Effect Background */}
+              <div className={`absolute inset-0 rounded-xl blur transition duration-300 ${
+                isDarkTheme
+                  ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-30'
+                  : 'bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-20'
+              }`}></div>
+
+              {/* Card Content */}
+              <div className={`relative rounded-xl p-8 h-full flex flex-col transition-all duration-300 ${
+                isDarkTheme
+                  ? 'bg-gray-900/50 backdrop-blur-sm border border-gray-800 hover:border-purple-900'
+                  : 'bg-white shadow-xl hover:shadow-2xl'
+              }`}>
+                {/* Icon */}
+                <div className={`text-3xl mb-4 ${
+                  isDarkTheme ? 'text-purple-400' : 'text-indigo-600'
+                }`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">
+
+                {/* Title */}
+                <h3 className={`text-xl font-bold mb-3 ${
+                  isDarkTheme ? 'text-white' : 'text-gray-800'
+                }`}>
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 mb-6 flex-grow">
+
+                {/* Description */}
+                <p className={`mb-6 flex-grow ${
+                  isDarkTheme ? 'text-gray-300' : 'text-gray-600'
+                }`}>
                   {feature.description}
                 </p>
-                <div className="flex items-center justify-between pt-4 border-t mt-auto">
-                  <div className="text-2xl font-bold text-indigo-600">
-                    <CountUp end={parseInt(feature.stat)} suffix="+" duration={2.5} />
+
+                {/* Stats Section */}
+                <div className={`flex items-center justify-between pt-4 ${
+                  isDarkTheme ? 'border-t border-gray-800' : 'border-t'
+                } mt-auto`}>
+                  <div className={`text-2xl font-bold ${
+                    isDarkTheme ? 'text-purple-400' : 'text-indigo-600'
+                  }`}>
+                    <CountUp 
+                      end={parseInt(feature.stat)} 
+                      suffix="+" 
+                      duration={2.5}
+                      enableScrollSpy
+                      scrollSpyOnce
+                    />
                   </div>
-                  <span className="text-sm text-gray-500">{feature.statText}</span>
+                  <span className={`text-sm ${
+                    isDarkTheme ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
+                    {feature.statText}
+                  </span>
                 </div>
               </div>
             </motion.div>
