@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../Provider/ThemeProvider';
 
 const Services = () => {
+  const { isDarkTheme } = useTheme();
   const services = [
     {
       id: 1,
@@ -67,6 +69,7 @@ const Services = () => {
       cta: "Build My App"
     }
   ];
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -85,67 +88,111 @@ const Services = () => {
       transition: { duration: 0.6, ease: "easeOut" }
     }
   };
-  return (
-    <div id='services' className="min-h-screen py-20 px-4 md:px-12 bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="container mx-auto"
+   return (
+    <div 
+    id='services' 
+    className={`min-h-screen py-20 px-4 md:px-12 transition-colors duration-300 ${
+      isDarkTheme
+        ? 'bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950' // Updated darker background
+        : 'bg-gradient-to-br from-slate-50 via-purple-50 to-slate-50'
+    }`}
       >
-        <h2 className="text-4xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
-          Our Services
-        </h2>
-        <p className="text-center mb-12 text-gray-600 dark:text-gray-300">
-          Transform your ideas into reality with our expert services
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service) => (
-            <motion.div
-              key={service.id}
-              variants={cardVariants}
-              whileHover={{ scale: 1.03 }}
-              className="relative backdrop-blur-lg bg-white/30 dark:bg-gray-800/30 rounded-xl p-6 
-                        shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
-                        border border-gray-200 dark:border-gray-700"
-            >
-              <div className="absolute top-0 right-0 m-4">
-                <span className="px-3 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                  Popular
-                </span>
-              </div>
-
-              <div className="text-6xl mb-6 transform transition-all hover:scale-110 hover:rotate-12">
-                {service.icon}
-              </div>
-
-              <h3 className="text-2xl font-bold mb-3 text-gray-800 dark:text-white">
-                {service.title}
-              </h3>
-
-              <p className="mb-6 text-gray-600 dark:text-gray-300">
-                {service.description}
-              </p>
-
-              <button className="w-full group relative inline-flex items-center justify-center px-6 py-3 
-                               overflow-hidden font-bold rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 
-                               text-white transition-all hover:bg-gradient-to-br hover:from-purple-500 hover:to-blue-400">
-                <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 
-                               rotate-12 group-hover:-translate-x-40 ease"></span>
-                <span className="relative">{service.cta}</span>
-              </button>
-
-              <div className="mt-6 flex justify-between text-sm text-gray-500 dark:text-gray-400">
-                <span>⭐ 4.9/5</span>
-                <span>Starting from $99</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </div>
-  );
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="container mx-auto"
+        >
+          <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 bg-clip-text text-transparent 
+            ${isDarkTheme
+              ? 'bg-gradient-to-r from-purple-300 via-blue-300 to-purple-300'
+              : 'bg-gradient-to-r from-purple-700 via-blue-600 to-purple-700'
+            }`}
+          >
+            Our Services
+          </h2>
+          <p className={`text-lg md:text-xl text-center mb-12 max-w-2xl mx-auto ${
+            isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+          }`}>
+            Transform your ideas into reality with our expert services
+          </p>
+  
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service) => (
+              <motion.div
+                key={service.id}
+                variants={cardVariants}
+                whileHover={{ scale: 1.03 }}
+                className={`relative backdrop-blur-lg rounded-xl p-6 
+                  ${isDarkTheme
+                    ? 'bg-white/5 border border-white/10 hover:bg-white/10'
+                    : 'bg-white border border-gray-100 hover:border-purple-200'
+                  }
+                  transition-all duration-300
+                  shadow-lg hover:shadow-xl`}
+              >
+                <div className="absolute top-0 right-0 m-4">
+                  <span className={`px-3 py-1 text-xs font-medium rounded-full
+                    ${isDarkTheme
+                      ? 'bg-purple-500/20 text-purple-200 border border-purple-500/30'
+                      : 'bg-purple-100 text-purple-700 border border-purple-200'
+                    }`}
+                  >
+                    Popular
+                  </span>
+                </div>
+  
+                <div className="text-6xl mb-6 transform transition-all hover:scale-110 hover:rotate-12">
+                  {service.icon}
+                </div>
+  
+                <h3 className={`text-xl md:text-2xl font-bold mb-3 ${
+                  isDarkTheme 
+                    ? 'text-white/90 bg-gradient-to-r from-purple-300 to-blue-300 bg-clip-text'
+                    : 'text-gray-800 bg-gradient-to-r from-purple-700 to-blue-600 bg-clip-text'
+                }`}>
+                  {service.title}
+                </h3>
+  
+                <p className={`mb-6 leading-relaxed ${
+                  isDarkTheme ? 'text-gray-300/90' : 'text-gray-600'
+                }`}>
+                  {service.description}
+                </p>
+  
+                <button className={`w-full group relative inline-flex items-center justify-center px-6 py-3 
+                  overflow-hidden font-bold rounded-lg transition-all
+                  ${isDarkTheme
+                    ? 'bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 hover:from-purple-400 hover:via-blue-400 hover:to-purple-400'
+                    : 'bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 hover:from-purple-500 hover:via-blue-500 hover:to-purple-500'
+                  }
+                  text-white shadow-lg hover:shadow-xl`}>
+                  <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 
+                                 rotate-12 group-hover:-translate-x-40 ease"></span>
+                  <span className="relative">{service.cta}</span>
+                </button>
+  
+                <div className={`mt-6 flex justify-between text-sm font-medium ${
+                  isDarkTheme ? 'text-gray-400' : 'text-gray-500'
+                }`}>
+                  <span className="flex items-center gap-1">
+                    <span className="text-yellow-400">⭐</span>
+                    <span className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}>4.9/5</span>
+                  </span>
+                  <span className={`${
+                    isDarkTheme 
+                      ? 'text-purple-300/80' 
+                      : 'text-purple-600'
+                  }`}>
+                    Starting from $99
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    );
 };
 
 export default Services;

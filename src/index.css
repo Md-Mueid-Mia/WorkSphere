@@ -7,6 +7,3 @@
 @tailwind components;
 @tailwind utilities;
 
-.active{
-    background-color: none !important;
-}

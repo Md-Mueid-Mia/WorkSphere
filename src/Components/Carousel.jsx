@@ -70,7 +70,7 @@ export const Carousel = () => {
   }, [paginate]);
 
   return (
-    <div className="h-60 w-full md:h-[470px] lg:h-[540px] relative overflow-hidden">
+    <div className="h-60 w-full mt-8 md:h-[470px] lg:h-[540px] relative overflow-hidden">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentIndex}

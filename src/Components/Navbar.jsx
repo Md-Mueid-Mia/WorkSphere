@@ -295,7 +295,7 @@ import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {user, signOutUser} = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const {  isDarkTheme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
 
   // Scroll effect
@@ -337,15 +337,15 @@ const Navbar = () => {
     }
   };
 
-  const navBackgroundClass = theme === 'dark' 
+  const navBackgroundClass = isDarkTheme  
     ? 'bg-gray-900/95' 
     : 'bg-white/95';
 
-  const textColorClass = theme === 'dark'
+  const textColorClass = isDarkTheme 
     ? 'text-gray-200'
     : 'text-gray-700';
 
-  const linkColorClass = theme === 'dark'
+  const linkColorClass = isDarkTheme
     ? 'text-gray-300 hover:text-white'
     : 'text-gray-600 hover:text-gray-900';
 
@@ -468,7 +468,7 @@ const Navbar = () => {
                 <motion.div
                   initial={{ rotate: -180 }}
                   animate={{ rotate: 0 }}
-                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center"
+                  className="w-12 h-12 px-2 rounded-xl bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center"
                 >
                   <span className="text-white font-bold text-xl">WS</span>
                 </motion.div>
@@ -493,9 +493,9 @@ const Navbar = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={toggleTheme}
-                  className={`p-2 rounded-full ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}
+                  className={`p-2 rounded-full ${isDarkTheme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}
                 >
-                  {theme === 'dark' ? <FiSun className="text-yellow-400" /> : <FiMoon className="text-gray-600" />}
+                  {isDarkTheme === 'dark' ? <FiSun className="text-yellow-400" /> : <FiMoon className="text-gray-600" />}
                 </motion.button>
 
                 {user ? (
@@ -510,7 +510,7 @@ const Navbar = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className={`dropdown-content menu p-2 shadow-lg rounded-box w-52 mt-4 ${
-                          theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+                          isDarkTheme === 'dark' ? 'bg-gray-800' : 'bg-white'
                         }`}
                       >
                         <li className={`px-4 py-2 ${textColorClass}`}>{user.displayName}</li>
@@ -564,9 +564,9 @@ const Navbar = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={toggleTheme}
-                    className={`p-2 rounded-full ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}
+                    className={`p-2 rounded-full ${isDarkTheme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}
                   >
-                    {theme === 'dark' ? <FiSun className="text-yellow-400" /> : <FiMoon className="text-gray-600" />}
+                    {isDarkTheme === 'dark' ? <FiSun className="text-yellow-400" /> : <FiMoon className="text-gray-600" />}
                   </motion.button>
                 </div>
               </div>
