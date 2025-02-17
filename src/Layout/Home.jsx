@@ -7,6 +7,9 @@ import Services from '../Components/Services';
 import AboutUs from '../Components/AboutUs';
 import FeatureSection from '../Components/FeatureSection';
 import Unique from '../Components/Unique';
+import Partners from '../Components/Partners';
+import BlogSection from '../Components/BlogSection';
+import CallToAction from '../Components/CallToAction';
 
 const Home = () => {
     return (
@@ -18,8 +21,10 @@ const Home = () => {
             <AboutUs></AboutUs>
             <FeatureSection />
 
+            <BlogSection></BlogSection>
             <TestimonialSlider></TestimonialSlider>
-            
+            {/* <Partners></Partners> */}
+            <CallToAction></CallToAction>
         </div>
     );
 };
