@@ -123,7 +123,7 @@ export const Carousel = () => {
       </AnimatePresence>
 
       {/* Navigation Arrows */}
-      <div className="absolute inset-0 flex items-center justify-between p-4">
+      {/* <div className="absolute inset-0 flex items-center justify-between p-4">
         <button
           onClick={() => paginate(-1)}
           className="p-2 rounded-full bg-black/30 text-white backdrop-blur-sm hover:bg-black/50 transition-all"
@@ -136,10 +136,10 @@ export const Carousel = () => {
         >
           →
         </button>
-      </div>
+      </div> */}
 
       {/* Dots */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+      {/* <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -152,7 +152,7 @@ export const Carousel = () => {
             }`}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

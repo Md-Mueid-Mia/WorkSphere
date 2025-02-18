@@ -71,11 +71,7 @@ const FeatureSection = () => {
   return (
     <section 
       id='Choose' 
-      className={`relative py-20 px-4 transition-all duration-300 ${
-        isDarkTheme
-          ? 'bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950'
-          : 'bg-gradient-to-br from-indigo-50 via-white to-purple-50'
-      }`}
+      className={`relative py-20 px-4 transition-all duration-300 `}
     >
       {/* Background Pattern */}
       <div className={`absolute inset-0 ${

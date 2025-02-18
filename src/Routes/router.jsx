@@ -1,5 +1,6 @@
 import {
     createBrowserRouter,
+    Navigate,
   } from "react-router-dom";
 import Root from "../Layout/Root";
 import Home from "../Layout/Home";
@@ -20,6 +21,8 @@ import HrRoutes from "./HrRoutes";
 import EmployeeRoute from "./EmployeeRoute";
 import Payroll from "../Pages/DashBoard/Admin/Payroll";
 import Message from "../Pages/DashBoard/Admin/Message";
+import Overview from "../Pages/DashBoard/Overview";
+import Profile from "../Pages/DashBoard/Profile";
 
 const router = createBrowserRouter([
     {
@@ -49,6 +52,18 @@ const router = createBrowserRouter([
   path: '/dashboard',
   element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
   children:[
+    {
+      index: true,
+      element: <Navigate to="/dashboard/profile" replace={true} />
+    },
+    {
+      path: "overview",
+      element:<PrivateRoute><Overview /></PrivateRoute> 
+    },
+    {
+      path: "profile",
+      element: <PrivateRoute><Profile /></PrivateRoute>
+    },
     {
       path: 'work-sheet',
       element: <EmployeeRoute><WorkSheet></WorkSheet></EmployeeRoute>

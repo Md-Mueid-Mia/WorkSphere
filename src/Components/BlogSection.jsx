@@ -36,11 +36,7 @@ const BlogSection = () => {
   ];
 
   return (
-    <section className={`py-24 px-4 transition-colors duration-300 ${
-      isDarkTheme 
-        ? 'bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950' 
-        : 'bg-gradient-to-br from-purple-50 via-white to-blue-50'
-    }`}>
+    <section className={`py-24 px-4 transition-colors duration-300 `}>
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <motion.div

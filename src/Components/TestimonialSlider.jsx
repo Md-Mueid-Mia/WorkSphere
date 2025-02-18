@@ -91,11 +91,7 @@ useEffect(() => {
 
 
   return (
-    <div className={`min-h-screen py-20 px-4 transition-colors duration-300 ${
-      isDarkTheme 
-        ? 'bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950'
-        : 'bg-gradient-to-br from-purple-50 via-white to-blue-50'
-    }`}>
+    <div className={`min-h-screen py-20 px-4 transition-colors duration-300 `}>
       <motion.h2 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

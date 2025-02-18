@@ -91,11 +91,7 @@ const Services = () => {
    return (
     <div 
     id='services' 
-    className={`min-h-screen py-20 px-4 md:px-12 transition-colors duration-300 ${
-      isDarkTheme
-        ? 'bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950' // Updated darker background
-        : 'bg-gradient-to-br from-slate-50 via-purple-50 to-slate-50'
-    }`}
+    className={`min-h-screen py-20 px-4 md:px-12 transition-colors duration-300 `}
       >
         <motion.div
           initial="hidden"

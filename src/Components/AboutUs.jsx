@@ -38,11 +38,7 @@ const AboutUs = () => {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={`relative py-20 px-4 sm:px-6 lg:px-8 ${
-          isDarkTheme 
-            ? 'bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950'
-            : 'bg-gradient-to-br from-purple-50 via-white to-slate-50'
-        }`}
+        className={`relative py-20 px-4 sm:px-6 lg:px-8 `}
       >
         <div className={`absolute inset-0 ${
           isDarkTheme 
@@ -157,11 +153,7 @@ const AboutUs = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className={`py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-          isDarkTheme 
-            ? 'bg-gray-950'
-            : 'bg-gray-50'
-        }`}
+        className={`py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 `}
       >
         <div className="max-w-7xl mx-auto text-center">
           <h2 className={`text-3xl font-bold mb-12 ${
