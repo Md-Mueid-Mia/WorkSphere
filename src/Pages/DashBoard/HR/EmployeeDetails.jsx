@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../Components/LoadingSpiner";
+import { useTheme } from "../../../Provider/ThemeProvider";
+import { motion } from "framer-motion";
 
-const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
+const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF4842', '#EA1179'];
 
 const EmployeeDetails = () => {
-  const { slug } = useParams(); // Get the dynamic slug
-  // const [employee, setEmployee] = useState(null);
-  const axiosSecure =useAxiosSecure()
+  const { isDarkTheme } = useTheme();
+  const { slug } = useParams();
+  const axiosSecure = useAxiosSecure();
 
-
-  const {data: employee = [], refetch} = useQuery({
+  const { data: employee = [], isLoading } = useQuery({
     queryKey: ["employee", slug],
     queryFn: async () => {
       try {
-        // Update the endpoint based on whether slug is an email or ID
         const res = await axiosSecure.get(`/payroll/id/${slug}`);
         if (!res.data || res.data.length === 0) {
           throw new Error('No employee data found');
         }
-        return res.data; // Return first item since it's an array
+        return res.data;
       } catch (error) {
         console.error('Error fetching employee:', error);
         throw error;
@@ -30,114 +30,124 @@ const EmployeeDetails = () => {
     },
     retry: 1
   });
-// console.log(employee);
 
-if (!employee) return <LoadingSpinner></LoadingSpinner>
+  if (isLoading) return <LoadingSpinner />;
 
-const employeeData = employee.map(item=> ({
-  name: item.date,
-  salary: item.salary,
-  formattedDate: `${item.month}-${item.year}`,
-}))
+  const employeeData = employee.map(item => ({
+    name: item.date,
+    salary: item.salary,
+    formattedDate: `${item.month}-${item.year}`,
+  }));
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100
-  }
-];
-const getPath = (x, y, width, height) => {
-  return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
-  ${x + width / 2}, ${y}
-  C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
-  Z`;
-};
+  const getPath = (x, y, width, height) => {
+    return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
+    ${x + width / 2}, ${y}
+    C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
+    Z`;
+  };
 
-const TriangleBar = (props) => {
-  const { fill, x, y, width, height } = props;
-
-  return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
-};
-
+  const TriangleBar = (props) => {
+    const { fill, x, y, width, height } = props;
+    return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+  };
+console.log(employee);
   return (
-    <div className="container mx-auto p-6">
-     <div className="pb-10">
-     <img
-        src={employee?.photo}
-        alt={employee?.Name}
-        className="rounded-full w-32 h-32 mb-4"
-      />
-      <h1 className="text-3xl font-bold mb-4">Name: {employee?.Name}</h1>
-      <p className="text-xl mb-4"><strong>Designation:</strong> {employee?.designation}</p>
-      
-     </div>
-      <div className="w-full  mx-auto">
-      <BarChart
-      width={800}
-      height={300}
-      data={employeeData}
-      margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="formattedDate" />
-      <YAxis />
-      <Bar
-        dataKey="salary"
-        fill="#8884d8"
-        shape={<TriangleBar />}
-        label={{ position: "top" }}
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index % 20]} />
-        ))}
-      </Bar>
-    </BarChart>
+    <div className={`min-h-screen ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
+      <div className="container mx-auto px-4 py-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl mx-auto"
+        >
+          {/* Employee Info Card */}
+          <div className={`rounded-xl p-6 mb-8 ${
+            isDarkTheme ? 'bg-gray-800' : 'bg-white'
+          } shadow-xl transition-all duration-300`}>
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <motion.img
+                whileHover={{ scale: 1.05 }}
+                src={employee[0]?.photo || 'default-avatar.png'}
+                alt={employee[0]?.Name}
+                className="rounded-full w-32 h-32 object-cover border-4 border-blue-500 shadow-lg"
+              />
+              <div className="text-center md:text-left">
+                <h1 className="text-2xl md:text-4xl font-bold mb-2">
+                  {employee[0]?.Name}
+                </h1>
+                <p className={`text-lg md:text-xl ${
+                  isDarkTheme ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  <span className="font-semibold">Designation:</span> {employee[0]?.designation}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <span className={`px-4 py-1 rounded-full text-sm ${
+                    isDarkTheme ? 'bg-blue-600' : 'bg-blue-100 text-blue-800'
+                  }`}>
+                    Employee ID: {employee[0]?._id?.slice(0, 8)}
+                  </span>
+                  <span className={`px-4 py-1 rounded-full text-sm ${
+                    isDarkTheme ? 'bg-green-600' : 'bg-green-100 text-green-800'
+                  }`}>
+                    Active Employee
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Salary Chart Card */}
+          <div className={`rounded-xl p-6 ${
+            isDarkTheme ? 'bg-gray-800' : 'bg-white'
+          } shadow-xl transition-all duration-300`}>
+            <h2 className="text-xl md:text-2xl font-bold mb-6">Salary History</h2>
+            <div className="w-full" style={{ height: '400px' }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={employeeData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid 
+                    strokeDasharray="3 3" 
+                    stroke={isDarkTheme ? '#374151' : '#e5e7eb'}
+                  />
+                  <XAxis 
+                    dataKey="formattedDate" 
+                    stroke={isDarkTheme ? '#D1D5DB' : '#4B5563'}
+                  />
+                  <YAxis 
+                    stroke={isDarkTheme ? '#D1D5DB' : '#4B5563'}
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: isDarkTheme ? '#1F2937' : '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '8px',
+                      color: isDarkTheme ? '#FFFFFF' : '#000000'
+                    }}
+                  />
+                  <Bar
+                    dataKey="salary"
+                    shape={<TriangleBar />}
+                    label={{ 
+                      position: "top",
+                      fill: isDarkTheme ? '#D1D5DB' : '#4B5563'
+                    }}
+                  >
+                    {employeeData.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={colors[index % colors.length]} 
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
-}
+};
 
 export default EmployeeDetails;

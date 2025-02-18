@@ -4,129 +4,235 @@ import Swal from "sweetalert2";
 import loginImg from "..//../assets/login.svg";
 import SocialLogin from "../../Components/SocileLogin";
 import useAuth from "../../Hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { useTheme } from "../../Provider/ThemeProvider";
+import { motion } from "framer-motion";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 
 const Login = () => {
+  const { isDarkTheme } = useTheme();
   const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, signOutUser } = useAuth();
-const axiosSecure = useAxiosSecure()
-const axiosPublic = useAxiosPublic()
+  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const from = location?.state || "/";
 
-                  const handleLogin = async (event) => {
-            event.preventDefault();
-            
-            try {
-              const form = event.target;
-              const email = form.email.value;
-              const password = form.password.value;
-          
-              // Firebase auth
-              await signIn(email, password);
-              
-              // Get JWT and set cookie
-              await axiosPublic.post(
-                `/jwt`,
-                { email },
-                { withCredentials: true }
-              );
-          
-              // Check user status with correct endpoint
-              const userStatus = await axiosSecure.get(`/users/email/${email}`);
-              
-              if (userStatus.data?.fired) {
-                // throw new Error("Your account has been terminated");
-                Swal.fire({
-                  icon: "error",
-                  title: "Login Failed",
-                  text: "Your account has been terminated"
-                });
-                
-                return signOutUser();
-              }
-          
-              Swal.fire({
-                icon: "success",
-                title: "Login Successful",
-                timer: 1500,
-                showConfirmButton: false
-              });
-          
-              navigate(from, { replace: true });
-          
-            } catch (error) {
-              console.error('Login error:', error);
-              Swal.fire({
-                icon: "error",
-                title: "Login Failed",
-                text: error.message
-              });
-            }
-          };
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    try {
+      const form = event.target;
+      const email = form.email.value;
+      const password = form.password.value;
+
+      // Firebase auth
+      await signIn(email, password);
+
+      // Get JWT and set cookie
+      await axiosPublic.post(`/jwt`, { email }, { withCredentials: true });
+
+      // Check user status with correct endpoint
+      const userStatus = await axiosSecure.get(`/users/email/${email}`);
+
+      if (userStatus.data?.fired) {
+        // throw new Error("Your account has been terminated");
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: "Your account has been terminated",
+        });
+
+        return signOutUser();
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error("Login error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.message,
+      });
+    }
+  };
   return (
-    <>
-      <div className="hero pt-20 md:pt-0 min-h-screen bg-base-200 ">
-        <div className="hero-content flex-col  md:flex-row-reverse overflow-hidden">
-          <div className="text-center md:w-1/2 lg:text-left">
-            <img src={loginImg} alt="" />
-          </div>
-          <div className="card w-full md:w-1/2 max-w-sm shadow-2xl bg-base-100">
-            <form onSubmit={handleLogin} className="card-body">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="email"
-                  className="input input-bordered"
-                />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                  className="input input-bordered"
-                />
-                <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
+    <div
+      className={`min-h-screen ${
+        isDarkTheme ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
+      }`}
+    >
+      <div className="container mx-auto px-4 py-8 lg:py-16">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
+          {/* Image Section */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="w-full lg:w-1/2 max-w-md mt-10 lg:mt-0"
+          >
+            <img
+              src={loginImg}
+              alt="Login illustration"
+              className="w-full h-auto drop-shadow-2xl"
+            />
+          </motion.div>
+
+          {/* Form Section */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="w-full lg:w-1/2 max-w-md"
+          >
+            <div
+              className={`rounded-2xl shadow-2xl p-5 md:p-8 ${
+                isDarkTheme ? "bg-gray-800" : "bg-white"
+              }`}
+            >
+              <h2
+                className={`text-3xl font-bold text-center mb-8 ${
+                  isDarkTheme ? "text-gray-100" : "text-gray-900"
+                }`}
+              >
+                Welcome Back
+              </h2>
+
+              <form onSubmit={handleLogin} className="space-y-6">
+                <div className="space-y-2">
+                  <label
+                    className={`text-sm font-medium ${
+                      isDarkTheme ? "text-gray-300" : "text-gray-700"
+                    }`}
+                  >
+                    Email
+                  </label>
+                  <div
+                    className={`flex items-center gap-2 p-3 rounded-lg ${
+                      isDarkTheme ? "bg-gray-700" : "bg-gray-100"
+                    }`}
+                  >
+                    <FaEnvelope className="text-gray-500" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      className={`w-full bg-transparent focus:outline-none ${
+                        isDarkTheme
+                          ? "placeholder-gray-500"
+                          : "placeholder-gray-400"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    className={`text-sm font-medium ${
+                      isDarkTheme ? "text-gray-300" : "text-gray-700"
+                    }`}
+                  >
+                    Password
+                  </label>
+                  <div
+                    className={`flex items-center gap-2 p-3 rounded-lg ${
+                      isDarkTheme ? "bg-gray-700" : "bg-gray-100"
+                    }`}
+                  >
+                    <FaLock className="text-gray-500" />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Enter your password"
+                      className={`w-full bg-transparent focus:outline-none ${
+                        isDarkTheme
+                          ? "placeholder-gray-500"
+                          : "placeholder-gray-400"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <Link
+                    className={`text-sm hover:underline ${
+                      isDarkTheme ? "text-blue-400" : "text-blue-600"
+                    }`}
+                  >
                     Forgot password?
-                  </a>
-                </label>
+                  </Link>
+                </div>
+
+                <button
+                  type="submit"
+                  className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
+                    isDarkTheme
+                      ? "bg-blue-600 hover:bg-blue-700 text-white"
+                      : "bg-blue-500 hover:bg-blue-600 text-white"
+                  }`}
+                >
+                  Sign In
+                </button>
+              </form>
+
+              <div className="mt-6 text-center">
+                <p
+                  className={`text-sm ${
+                    isDarkTheme ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
+                  New Here?{" "}
+                  <Link
+                    to="/signup"
+                    className={`font-medium hover:underline ${
+                      isDarkTheme ? "text-blue-400" : "text-blue-600"
+                    }`}
+                  >
+                    Create an account
+                  </Link>
+                </p>
               </div>
 
-              <div className="form-control mt-6">
-                <input
-                  className="btn btn-primary"
-                  type="submit"
-                  value="Login"
-                />
+              <div className="mt-6">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div
+                      className={`w-full border-t ${
+                        isDarkTheme ? "border-gray-700" : "border-gray-200"
+                      }`}
+                    ></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span
+                      className={`px-2 ${
+                        isDarkTheme
+                          ? "bg-gray-800 text-gray-400"
+                          : "bg-white text-gray-500"
+                      }`}
+                    >
+                      Or continue with
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <SocialLogin />
+                </div>
               </div>
-            </form>
-            <p className="text-center">
-              <small>
-                New Here? <Link to="/signup" className="text-orange-400">Create an account</Link>
-              </small>
-            </p>
-            <p className="text-center pb-2">Or sign In with</p>
-            <div className="divider"></div>
-            <div className="pb-4">
-              <SocialLogin></SocialLogin>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

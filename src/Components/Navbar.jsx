@@ -254,7 +254,52 @@ const Navbar = () => {
             </div>
 
             {/* Mobile menu button */}
-            <div className="lg:hidden">
+            <div className="lg:hidden flex items-center gap-3">
+            <div className=" flex items-center justify-between">
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={toggleTheme}
+                    className={`p-2 rounded-full ${isDarkTheme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}
+                  >
+                    {isDarkTheme === 'dark' ? <FiSun className="text-yellow-400" /> : <FiMoon className="text-gray-600" />}
+                  </motion.button>
+                </div>
+            {user ? (
+                  <div className="relative">
+                    <motion.div whileHover={{ scale: 1.05 }} className="dropdown dropdown-end">
+                      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                        <div className="w-10 rounded-full ring-2 ring-purple-500">
+                          <img alt="user photo" src={user.photoURL} className="object-cover" referrerPolicy="no-referrer" />
+                        </div>
+                      </div>
+                      <motion.ul
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`dropdown-content menu p-2 shadow-lg rounded-box w-52 mt-4 ${
+                          isDarkTheme === 'dark' ? 'bg-gray-800' : 'bg-white'
+                        }`}
+                      >
+                        <li className={`px-4 py-2 ${textColorClass}`}>{user.displayName}</li>
+                        <li>
+                          <button 
+                            onClick={handleLogOut}
+                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
+                          >
+                            Logout
+                          </button>
+                        </li>
+                      </motion.ul>
+                    </motion.div>
+                  </div>
+                ) : (
+                  <Link 
+                    to="/login"
+                    className="btn btn-primary bg-gradient-to-r from-purple-600 to-blue-500 text-white border-none hover:opacity-90 transition-opacity"
+                  >
+                    Login
+                  </Link>
+                )}
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`p-2 rounded-md ${textColorClass}`}
@@ -276,16 +321,7 @@ const Navbar = () => {
             >
               <div className="px-4 pt-2 pb-4 space-y-1">
                 {links}
-                <div className="mt-4 flex items-center justify-between">
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={toggleTheme}
-                    className={`p-2 rounded-full ${isDarkTheme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}
-                  >
-                    {isDarkTheme === 'dark' ? <FiSun className="text-yellow-400" /> : <FiMoon className="text-gray-600" />}
-                  </motion.button>
-                </div>
+               
               </div>
             </motion.div>
           )}

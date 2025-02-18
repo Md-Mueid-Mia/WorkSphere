@@ -82,14 +82,14 @@ const AllEmployeeList = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className={`container mx-auto p-4 md:p-0 ${
+      className={`  md:p-0 ${
         isDarkTheme ? "text-gray-100" : "text-gray-800"
       }`}
     >
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+      <div className="flex flex-col md:flex-row w-full justify-between items-center mb-8">
         <h1
-          className={`text-3xl font-bold ${
+          className={`text-xl md:text-3xl font-bold ${
             isDarkTheme
               ? "text-purple-400"
               : "bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"
@@ -109,14 +109,15 @@ const AllEmployeeList = () => {
         </button>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="w-full overflow-x-auto">
         {isTableView ? (
           <div
             className={`rounded-xl shadow-lg overflow-hidden ${
               isDarkTheme ? "bg-gray-800" : "bg-white"
             }`}
           >
-            <table className="w-full min-w-[800px]">
+             <div className=" w-full overflow-x-auto">
+            <table className="w-full table-auto">
               <thead>
                 <tr
                   className={`${
@@ -234,6 +235,7 @@ const AllEmployeeList = () => {
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

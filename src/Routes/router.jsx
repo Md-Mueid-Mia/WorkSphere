@@ -87,7 +87,7 @@ const router = createBrowserRouter([
     },
     // admin routes
     {
-      path: 'all-employee-list',
+      path: 'all-employee',
       element: <AdminRoute><AllEmployeeList></AllEmployeeList></AdminRoute>
     },
     {

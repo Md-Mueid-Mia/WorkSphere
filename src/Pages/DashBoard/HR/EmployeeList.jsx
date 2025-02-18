@@ -24,9 +24,10 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useTheme } from "../../../Provider/ThemeProvider";
 
 const EmployeeList = () => {
-  // const [employees, setEmployees] = useState([]);
+  const { isDarkTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [paymentDetails, setPaymentDetails] = useState({
@@ -164,62 +165,68 @@ const EmployeeList = () => {
   };
   // console.log(selectedEmployee,paymentDetails);
   return (
-    <div className="container mx-auto px-3 md:p-6">
-      <h1 className="text-2xl font-semibold mb-4">Employee List</h1>
-      <TableContainer component={Paper}>
-        <Table>
+    <div className={`min-h-screen p-4 md:p-6 lg:p-8 ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
+      <h1 className={`text-2xl md:text-3xl font-bold mb-6 ${isDarkTheme ? 'text-white' : 'text-gray-800'}`}>
+        Employee Management
+      </h1>
+
+      <TableContainer 
+        component={Paper} 
+        className={`${isDarkTheme ? 'bg-gray-800' : 'bg-white'} shadow-xl rounded-lg`}
+      >
+        <Table className="min-w-full">
           <TableHead>
-            <TableRow>
-              <TableCell>
-                <strong>Name</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Email</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Verified</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Bank Account</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Salary</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Pay</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Details</strong>
-              </TableCell>
+            <TableRow className={isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'}>
+              {['Name', 'Email', 'Verified', 'Bank Account', 'Salary', 'Pay', 'Details'].map((header) => (
+                <TableCell 
+                  key={header}
+                  className={`${isDarkTheme ? 'text-gray-200' : 'text-gray-700'} font-semibold py-4`}
+                >
+                  {header}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {employees?.map((employee) => (
-              <TableRow key={employee._id}>
-                <TableCell>{employee.Name}</TableCell>
-                <TableCell>{employee.email}</TableCell>
+              <TableRow 
+                key={employee._id}
+                className={`
+                  ${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} 
+                  transition-colors duration-150
+                `}
+              >
+                <TableCell className={isDarkTheme ? 'text-gray-200' : 'text-gray-800'}>
+                  {employee.Name}
+                </TableCell>
+                <TableCell className={isDarkTheme ? 'text-gray-200' : 'text-gray-800'}>
+                  {employee.email}
+                </TableCell>
                 <TableCell>
                   <IconButton
-                    onClick={() =>
-                      handleVerificationToggle(
-                        employee._id,
-                        employee.isVerified
-                      )
-                    }
+                    onClick={() => handleVerificationToggle(employee._id, employee.isVerified)}
+                    className={isDarkTheme ? 'text-gray-200' : 'text-gray-800'}
                   >
                     {employee.isVerified ? (
-                      <FaCheck color="green" />
+                      <FaCheck className="text-green-500" />
                     ) : (
-                      <FaTimes color="red" />
+                      <FaTimes className="text-red-500" />
                     )}
                   </IconButton>
                 </TableCell>
-                <TableCell>{employee.bank_account_no}</TableCell>
-                <TableCell>{employee.salary}</TableCell>
+                <TableCell className={isDarkTheme ? 'text-gray-200' : 'text-gray-800'}>
+                  {employee.bank_account_no}
+                </TableCell>
+                <TableCell className={isDarkTheme ? 'text-gray-200' : 'text-gray-800'}>
+                  ${employee.salary}
+                </TableCell>
                 <TableCell>
                   <Button
                     variant="contained"
-                    color="primary"
+                    className={`
+                      ${!employee.isVerified && 'opacity-50'}
+                      ${isDarkTheme ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'}
+                    `}
                     startIcon={<FaDollarSign />}
                     onClick={() => openPayModal(employee)}
                     disabled={!employee.isVerified}
@@ -230,12 +237,14 @@ const EmployeeList = () => {
                 <TableCell>
                   {employee.isVerified ? (
                     <Link to={`/dashboard/details/${employee._id}`}>
-                      <Button color="secondary">
+                      <Button 
+                        className={isDarkTheme ? 'text-blue-400' : 'text-blue-600'}
+                      >
                         <BsArrowUpRight />
                       </Button>
                     </Link>
                   ) : (
-                    <Button disabled color="secondary">
+                    <Button disabled>
                       <BsArrowUpRight />
                     </Button>
                   )}
@@ -247,16 +256,28 @@ const EmployeeList = () => {
       </TableContainer>
 
       {/* Payment Modal */}
-      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle>Process Payment for {selectedEmployee?.name}</DialogTitle>
-        <DialogContent>
+      <Dialog 
+        open={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        PaperProps={{
+          className: isDarkTheme ? 'bg-gray-800 text-white' : 'bg-white'
+        }}
+      >
+        <DialogTitle className="border-b">
+          Process Payment for {selectedEmployee?.Name}
+        </DialogTitle>
+        <DialogContent className="mt-4">
           <TextField
             label="Salary"
             value={paymentDetails.salary}
             name="salary"
-            InputProps={{ readOnly: true }}
+            InputProps={{ 
+              readOnly: true,
+              className: isDarkTheme ? 'text-white' : ''
+            }}
             fullWidth
             margin="dense"
+            className="mb-4"
           />
           <TextField
             label="Month"
@@ -265,6 +286,10 @@ const EmployeeList = () => {
             onChange={handleInputChange}
             fullWidth
             margin="dense"
+            className="mb-4"
+            InputProps={{
+              className: isDarkTheme ? 'text-white' : ''
+            }}
           />
           <TextField
             label="Year"
@@ -273,16 +298,22 @@ const EmployeeList = () => {
             onChange={handleInputChange}
             fullWidth
             margin="dense"
+            InputProps={{
+              className: isDarkTheme ? 'text-white' : ''
+            }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsModalOpen(false)} color="secondary">
+        <DialogActions className="p-4">
+          <Button 
+            onClick={() => setIsModalOpen(false)}
+            className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}
+          >
             Cancel
           </Button>
           <Button
             onClick={handlePayRequest}
-            color="primary"
             variant="contained"
+            className={isDarkTheme ? 'bg-blue-600' : 'bg-blue-500'}
           >
             Submit Payment
           </Button>

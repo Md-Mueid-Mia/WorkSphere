@@ -22,9 +22,9 @@ const DashBoard = () => {
   if (isHRLoading || isAdminLoading || isEmployeeLoading) return <LoadingSpinner />;
 
   const commonMenuItems = [
+    { title: "Home", icon: <FiHome />, path: "/" },
     { title: "Overview", icon: <FiPieChart />, path: "/dashboard/overview" },
     { title: "Profile", icon: <FiUser />, path: "/dashboard/profile" },
-    { title: "Home", icon: <FiHome />, path: "/" },
     { title: "Settings", icon: <FiSettings />, path: "/dashboard/settings" }
   ];
 
@@ -39,7 +39,7 @@ const DashBoard = () => {
   ];
 
   const adminMenuItems = [
-    { title: "All Employee List", icon: <FiUserPlus />, path: "/dashboard/all-employee-list" },
+    { title: "All Employee", icon: <FiUserPlus />, path: "/dashboard/all-employee" },
     { title: "Payroll", icon: <FiDollarSign />, path: "/dashboard/payroll" },
     { title: "Messages", icon: <FiMessageSquare />, path: "/dashboard/messages" }
   ];
@@ -62,7 +62,7 @@ const DashBoard = () => {
         <Navigate to="/dashboard/profile" replace={true} />
       )}
     <div className="flex justify-center w-full bg-gray-100">
-      <div className={`relative flex min-h-screen w-full max-w-7xl mx-auto ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-300`}>
+      <div className={`relative flex min-h-screen w-full max-w-7xl mx-auto ${isDarkTheme ? 'bg-gray-900 pr-[88px]' : 'bg-gray-50'} transition-colors duration-300`}>
         {/* Sidebar Container */}
         <div className="fixed left-0 right-0 mx-auto max-w-7xl">
           {/* Actual Sidebar */}
@@ -148,8 +148,8 @@ const DashBoard = () => {
         {/* Main Content */}
         <div 
           className={`
-            flex-1 transition-all duration-300
-            ${isOpen ? 'ml-[300px]' : 'ml-[88px]'}
+            flex-1 transition-all duration-300 
+            ${isOpen ? 'ml-[300px]' : ' ml-[88px]'}
             w-full
           `}
         >
