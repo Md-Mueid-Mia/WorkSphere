@@ -1,15 +1,22 @@
 # WorkSphere - Employee Management System
-<img src="https://i.ibb.co.com/TBVG4BxX/Logo-Normal-01-3.png"></img>
+<img src="https://i.ibb.co.com/0V6Tsjsg/a12.png"></img>
 
 Welcome to **WorkSphere**, a powerful and user-friendly Employee Management System designed to streamline workforce administration and HR processes. This application allows admins to view, manage, and update employee details efficiently.
 
 ## 🔗 Live Site URL
-[Visit WorkSphere Live Site](https://worksphere1.netlify.app)
+[Visit WorkSphere Live Site](https://assignment-12-e3cab.web.app)
 
 ## 👩‍💼 Admin Credentials
 - **Username**: `admin@gmail.com`
 - **Password**: `Admin@2`
 
+## 👩‍💼 HR Credentials
+- **Username**: `hr530@gmail.com`
+- **Password**: `Hr@222`
+
+## 👩‍💼 Employee Credentials
+- **Username**: `employee@gmail.com`
+- **Password**: `Employee@2`
 > **Note**: Please keep these credentials secure and change them if sharing publicly.
 
 ---
