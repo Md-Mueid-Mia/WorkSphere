@@ -12,9 +12,9 @@ const CallToAction = () => {
 
   return (
     <section
-      className={`w-full py-20 `}
+      className={`w-full py-20  `}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-2 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -45,7 +45,7 @@ const CallToAction = () => {
                 Connect with top companies worldwide. Work remotely, earn globally. 
                 Join WorkSphere's marketplace of skilled professionals and innovative businesses.
               </p>
-              <div className="flex flex-wrap gap-6">
+              {/* <div className="flex flex-wrap gap-6">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -64,7 +64,7 @@ const CallToAction = () => {
                 >
                   Hire Talent
                 </motion.button>
-              </div>
+              </div> */}
             </div>
             <div className="hidden lg:block relative">
               <motion.img
@@ -86,7 +86,7 @@ const CallToAction = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`text-center p-8 rounded-2xl ${
+                className={`text-center p-4 md:p-8 rounded-2xl ${
                   isDarkTheme 
                     ? "bg-gray-800 hover:bg-gray-700" 
                     : "bg-white hover:bg-gray-50"

@@ -3,16 +3,16 @@ import { FiMail, FiPhone, FiMapPin, FiCalendar, FiBriefcase, FiAward, FiGithub, 
 import useAuth from '../../Hooks/useAuth';
 import { useTheme } from '../../Provider/ThemeProvider';
 
-const Profile = () => {
+const Profile = ({isOpen}) => {
   const { user } = useAuth();
   const { isDarkTheme } = useTheme();
 
   return (
-    <div className={`min-h-screen p-4 ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen p-4  ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Profile Card */}
         <div className="lg:col-span-1">
-          <div className={`relative ${isDarkTheme ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-3 md:p-6 transform hover:scale-105 transition-transform duration-300`}>
+          <div className={`relative ${isDarkTheme ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-4  transform hover:scale-105 transition-transform duration-300`}>
             <div className="absolute top-0 right-0 left-0 h-32 bg-gradient-to-r from-purple-500 to-blue-500 rounded-t-2xl"></div>
             <div className="relative flex flex-col items-center">
               <img 

@@ -91,7 +91,7 @@ useEffect(() => {
 
 
   return (
-    <div className={`min-h-screen py-20 px-4 transition-colors duration-300 `}>
+    <div className={`min-h-[770px] py-20 px-4 transition-colors duration-300 `}>
       <motion.h2 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

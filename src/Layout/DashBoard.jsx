@@ -25,7 +25,7 @@ const DashBoard = () => {
     { title: "Home", icon: <FiHome />, path: "/" },
     { title: "Overview", icon: <FiPieChart />, path: "/dashboard/overview" },
     { title: "Profile", icon: <FiUser />, path: "/dashboard/profile" },
-    { title: "Settings", icon: <FiSettings />, path: "/dashboard/settings" }
+    // { title: "Settings", icon: <FiSettings />, path: "/dashboard/settings" }
   ];
 
   const employeeMenuItems = [
@@ -176,13 +176,13 @@ const DashBoard = () => {
                   )}
                 </button>
                 
-                <button className={`p-2 rounded-full ${
+                {/* <button className={`p-2 rounded-full ${
                   isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
                 }`}>
                   <FiSettings className={`${
                     isDarkTheme ? 'text-gray-400' : 'text-gray-600'
                   }`} />
-                </button>
+                </button> */}
               </div>
             </div>
           </header>

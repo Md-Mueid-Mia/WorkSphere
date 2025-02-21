@@ -20,6 +20,7 @@ createRoot(document.getElementById("root")).render(
         <QueryClientProvider client={queryClient}>
           <div className="max-w-7xl mx-auto">
           <RouterProvider router={router} />
+          
           </div>
         </QueryClientProvider>
     </AuthProvider>

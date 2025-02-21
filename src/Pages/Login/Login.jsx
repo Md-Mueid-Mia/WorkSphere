@@ -12,7 +12,7 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 
 const Login = () => {
   const { isDarkTheme } = useTheme();
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, signOutUser } = useAuth();
@@ -65,6 +65,31 @@ const Login = () => {
       });
     }
   };
+
+  const DEMO_USERS = {
+    admin: {
+      email: "admin@gmail.com",
+      password: "Admin@2",
+    },
+    hr: {
+      email: "hr530@gmail.com",
+      password: "Hr@222",
+    },
+    employee: {
+      email: "employee@gmail.com",
+      password: "Employee@2",
+    },
+  };
+
+
+  const handleDemoLogin = (role) => {
+    setUserEmail(DEMO_USERS[role].email);
+    const form = document.querySelector('form');
+    form.email.value = DEMO_USERS[role].email;
+    form.password.value = DEMO_USERS[role].password;
+  };
+
+
   return (
     <div
       className={`min-h-screen ${
@@ -106,7 +131,41 @@ const Login = () => {
               >
                 Welcome Back
               </h2>
-
+              <div className="flex flex-wrap gap-2 mb-6 justify-center">
+  <button
+    type="button"
+    onClick={() => handleDemoLogin('admin')}
+    className={`px-4 py-2 rounded-lg text-sm font-medium ${
+      isDarkTheme
+        ? 'bg-purple-600 hover:bg-purple-700 text-white'
+        : 'bg-purple-500 hover:bg-purple-600 text-white'
+    }`}
+  >
+    Admin Login
+  </button>
+  <button
+    type="button"
+    onClick={() => handleDemoLogin('hr')}
+    className={`px-4 py-2 rounded-lg text-sm font-medium ${
+      isDarkTheme
+        ? 'bg-green-600 hover:bg-green-700 text-white'
+        : 'bg-green-500 hover:bg-green-600 text-white'
+    }`}
+  >
+   HR Login
+  </button>
+  <button
+    type="button"
+    onClick={() => handleDemoLogin('employee')}
+    className={`px-4 py-2 rounded-lg text-sm font-medium ${
+      isDarkTheme
+        ? 'bg-orange-600 hover:bg-orange-700 text-white'
+        : 'bg-orange-500 hover:bg-orange-600 text-white'
+    }`}
+  >
+    Employee Login
+  </button>
+</div>
               <form onSubmit={handleLogin} className="space-y-6">
                 <div className="space-y-2">
                   <label

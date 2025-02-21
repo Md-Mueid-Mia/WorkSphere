@@ -71,7 +71,7 @@ const FeatureSection = () => {
   return (
     <section 
       id='Choose' 
-      className={`relative py-20 px-4 transition-all duration-300 `}
+      className={`relative pb-20 px-4 transition-all duration-300 `}
     >
       {/* Background Pattern */}
       <div className={`absolute inset-0 ${

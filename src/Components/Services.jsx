@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../Provider/ThemeProvider';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const Services = () => {
   const { isDarkTheme } = useTheme();
@@ -88,10 +90,20 @@ const Services = () => {
       transition: { duration: 0.6, ease: "easeOut" }
     }
   };
+  const handleBook = (cta) => {
+//  console.log(cta);
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: `Book ${cta} Successful! Our team will contact you shortly.`,
+      showConfirmButton: false,
+      timer: 2500
+    });
+  }
    return (
     <div 
     id='services' 
-    className={`min-h-screen py-20 px-4 md:px-12 transition-colors duration-300 `}
+    className={`min-h-screen pb-5 px-4 md:px-12 transition-colors duration-300 `}
       >
         <motion.div
           initial="hidden"
@@ -156,7 +168,7 @@ const Services = () => {
                   {service.description}
                 </p>
   
-                <button className={`w-full group relative inline-flex items-center justify-center px-6 py-3 
+                <button onClick={()=>handleBook(service.cta)} className={`w-full group relative inline-flex items-center justify-center px-6 py-3 
                   overflow-hidden font-bold rounded-lg transition-all
                   ${isDarkTheme
                     ? 'bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 hover:from-purple-400 hover:via-blue-400 hover:to-purple-400'

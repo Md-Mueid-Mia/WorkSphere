@@ -36,7 +36,7 @@ const BlogSection = () => {
   ];
 
   return (
-    <section className={`py-24 px-4 transition-colors duration-300 `}>
+    <section className={` px-4 transition-colors duration-300 `}>
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
@@ -136,7 +136,7 @@ const BlogSection = () => {
                 </div>
 
                 {/* Read More Link */}
-                <motion.button
+                {/* <motion.button
                   whileHover={{ x: 5 }}
                   className={`mt-6 flex items-center text-sm font-semibold ${
                     isDarkTheme
@@ -146,14 +146,14 @@ const BlogSection = () => {
                 >
                   Read More
                   <FaArrowRight className="ml-2" />
-                </motion.button>
+                </motion.button> */}
               </div>
             </motion.article>
           ))}
         </div>
 
         {/* CTA Button */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -170,7 +170,7 @@ const BlogSection = () => {
           >
             View All Articles
           </motion.button>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
