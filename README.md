@@ -61,5 +61,32 @@ Welcome to **WorkSphere**, a powerful and user-friendly Employee Management Syst
 - **Database**: MongoDB
 - **Libraries**: React Query, Axios, SweetAlert2, React Icons
 
+
+
+## 📦 Dependencies
+
+### Frontend Dependencies
+- **@stripe/stripe-js**: `^2.2.0` - Stripe payment integration
+- **@tanstack/react-query**: `^5.8.7` - Data fetching and state management
+- **axios**: `^1.6.2` - HTTP client for API requests
+- **firebase**: `^10.6.0` - Authentication and hosting
+- **react**: `^18.2.0` - UI library
+- **react-dom**: `^18.2.0` - React DOM renderer
+- **react-hook-form**: `^7.48.2` - Form handling
+- **react-hot-toast**: `^2.4.1` - Toast notifications
+- **react-icons**: `^4.12.0` - Icon components
+- **react-router-dom**: `^6.20.0` - Routing
+- **sweetalert2**: `^11.10.1` - Beautiful alerts and modals
+
+### Development Dependencies
+- **@types/react**: `^18.2.37` - React type definitions
+- **@types/react-dom**: `^18.2.15` - React DOM type definitions
+- **@vitejs/plugin-react**: `^4.2.0` - Vite plugin for React
+- **autoprefixer**: `^10.4.16` - PostCSS plugin
+- **eslint**: `^8.53.0` - Code linting
+- **postcss**: `^8.4.31` - CSS tool
+- **tailwindcss**: `^3.3.5` - Utility-first CSS framework
+- **vite**: `^5.0.0` - Build tool and dev server
+
 ---
 
